@@ -547,7 +547,12 @@ function draw() {
   UI.draw();
 }
 
-setInterval(gameLoop, 20);
+// setInterval(gameLoop, 20);
+function loop() {
+  gameLoop();
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
 }
 
 function showLoading() {
@@ -564,7 +569,7 @@ function showLoading() {
   window.addEventListener('resize', resizeCanvas);
 
   // Create stars
-  const starCount = 100;
+  const starCount = 50;
   const stars = Array.from({ length: starCount }).map(() => ({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
