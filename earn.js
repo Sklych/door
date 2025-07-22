@@ -167,7 +167,7 @@ window.onload = function() {
       console.log("init tg ", tg)
       console.log("init data ", tg.initData)
       console.log("init datinitDataUnsafea ", tg.initDataUnsafe)
-      const user = tg.initData.user;
+      const user = tg.initDataUnsafe.user;
       const ref = tg.initData.start_param;
       if (!localStorage.getItem("init")) {
         if (await init(user.id, ref)) {
