@@ -206,8 +206,8 @@ tg.ready();
 
 window.onload = function() {
 
-  const user = tg.initData.user;
-  const ref = tg.initData.start_param;
+  const user = tg.initDataUnsafe.user;
+  const ref = tg.initDataUnsafe.start_param;
   const user_lang = user.language_code ?? 'ru';
 
   showLoading();
@@ -219,8 +219,6 @@ window.onload = function() {
 
   (async () => {
     try {
-      const user = tg.initDataUnsafe.user;
-      const ref = tg.initDataUnsafe.start_param;
       if (!localStorage.getItem("init")) {
         if (await init(user.id, ref)) {
           localStorage.setItem("init", true)
