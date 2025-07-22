@@ -148,11 +148,11 @@ function showLoading() {
   animate();
 }
 
-function showError() {
+function showError(err) {
   document.getElementById('progress').style.display = 'none';
   document.getElementById('main-content').style.display = 'none';
   document.getElementById('error-content').style.display = 'flex';
-
+  document.getElementById('error-content').textContent = err
   animateBackground("error-background-stars");
 }
 
@@ -160,8 +160,7 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 
 window.onload = function() {
-  const user = tg.initData.user;
-  const ref = tg.initData.start_param;
+  
 
   showLoading();
 
@@ -172,12 +171,13 @@ window.onload = function() {
             localStorage.setItem("init", true)
           }
       }
-
+      const user = tg.initData.user;
+      const ref = tg.initData.start_param;
       const user_state = await getUserState(user.id);
       showContent(user_state);
     } catch (err) {
       console.error(err);
-      showError();
+      showError(err);
     }
   })();
     
