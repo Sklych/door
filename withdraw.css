@@ -1,0 +1,45 @@
+.usdt-button {
+    background-color: #26A17B;  /* Tether USDT green */
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(38, 161, 123, 0.3);
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+
+  .usdt-button:hover {
+    background-color: #208e6a;
+  }
+
+  .usdt-button:active {
+    background-color: #1a7358;
+  }
+
+  #toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10001;
+}
+
+.toast {
+    background-color: #333;
+    color: #fff;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}

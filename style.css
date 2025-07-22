@@ -1,0 +1,243 @@
+#canvas
+{
+    border: 2px solid black;
+    display: block;
+    margin: auto;
+    padding: auto;
+    
+}
+
+html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* horizontal center */
+    align-items: center;     /* vertical center */
+    /* background: #f0f0f0;     optional, just to see canvas better */
+    /* background: linear-gradient(to bottom, #87ceeb, #ffffff); Sky blue to white */
+  }
+
+
+  body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: black; /* fallback in case canvas fails */
+  }
+  
+  @keyframes gradientMove {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .status-bar {
+    position: fixed;       /* Make it float in the corner */
+    top: 16px;
+    left: 16px;
+    display: flex;
+    gap: 10px;
+    z-index: 1001;         /* Ensure it's above canvas and other content */
+  }
+  
+  .status-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    color: white;
+    font-weight: bold;
+    font-family: 'Squada One', sans-serif;
+    font-size: 16px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .plus-icon {
+    width: 24px;
+    height: 24px;
+    color: white;
+    margin-left: 8px;
+  }
+
+  .usdt-icon {
+    margin-left: 8px;
+  }
+
+  /* Bottom navigation bar container */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #222;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+    font-family: 'Squada One', cursive;
+    z-index: 1000;
+  }
+  
+  /* Each nav item */
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  /* Icon in nav item */
+  .nav-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 2px;
+    filter: invert(1); /* white icon if SVG is black */
+    transition: filter 0.2s ease;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;       /* Важно: отображать элементы в колонку */
+    align-items: center;          /* Центрировать по горизонтали */
+    justify-content: center;      /* Центрировать по вертикали */
+    height: 100vh;
+    width: 100%;
+    padding: 0 16px;
+    gap: 16px;                    /* Расстояние между кнопками */
+    box-sizing: border-box;
+  }
+  
+  .subscribe-bonus {
+    width: 100%;
+    max-width: 400px;                  /* ограничим ширину для читаемости */
+    background: linear-gradient(135deg, #2d2b2a, #373535);
+    color: white;
+    font-size: 16px;
+    padding: 14px 20px;
+    border-radius: 24px;
+    font-family: 'Squada One', sans-serif;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .friends-invited {
+    margin-top: 12px;
+    color: #ccc;
+    font-size: 14px;
+    font-family: 'Squada One', sans-serif;
+    text-align: center;
+  }
+
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  #loading-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 0;
+  }
+
+  @keyframes pulse-scale {
+    0%, 100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+  }
+  
+  .center-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    animation: pulse-scale 1.5s ease-in-out infinite;
+  }
+  
+  #content-background-stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Stay behind all content */
+    display: block;
+  }
+
+  #error-background-stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Stay behind all content */
+    display: block;
+  }
+
+  .error-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: 'Squada One', sans-serif;
+  }
+  
+  .error-box {
+    text-align: center;
+  }
+  
+  .error-message {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #ffffff; /* red color */
+  }
+  
+  .reload-button {
+    background: #2d2b2a;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.3s ease;
+  }
+  
+  .reload-button:hover {
+    background: #373535;
+  }

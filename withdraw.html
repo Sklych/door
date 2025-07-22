@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>FlappyBird</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="withdraw.css">
+  <link href="https://fonts.googleapis.com/css?family=Squada+One&display=swap" rel="stylesheet">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <script type="module" src="withdraw.js"></script>
+  <scripts src="network.js"></script>
+</head>
+
+<body>
+  <div class="progress" id="progress">
+    <canvas id="loading-canvas"></canvas>
+    <div class="center-icon">
+      <img class="usdt-icon" src="img/bird/splash_icon.jpeg" width="128px" height="128px">
+    </div>
+  </div>
+
+  <div class="error-content" id="error-content" style="display: none;">
+    <canvas id="error-background-stars"></canvas>
+    <div class="error-box">
+      <p class="error-message">Произошла ошибка. Попробуйте снова.</p>
+      <button class="reload-button" onclick="location.reload()">Перезагрузить</button>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <div class="content" id="main-content" style="display: none;">
+    <canvas id="content-background-stars"></canvas>
+    <div class="status-bar">
+      <div class="status-item" id="coefficient-menu-item">
+        <span class="text" id="coefficient-text">1.0 X</span>
+        <img class="plus-icon" src="img/plus-svgrepo-com.svg">
+      </div>
+      <div class="status-item" id="usdt-menu-item">
+        <span class="text" id="usdt-text">0.00</span>
+        <img class="usdt-icon" src="img/reward/usdt-svgrepo-com.svg" width="24px" height="24px">
+      </div>
+    </div>
+    <button class="usdt-button" id="usdt-button">Вывести USDT</button>
+  </div>
+  
+  <div class="bottom-nav">
+    <div class="nav-item" data-url="index.html" id="play-nav-item">
+      <img src="img/nav/play.svg" alt="Play" class="nav-icon" />
+      <span>Играть</span>
+    </div>
+    <div class="nav-item" data-url="earn.html" id="earn-nav-item">
+      <img src="img/nav/earn.svg" alt="Earn" class="nav-icon" />
+      <span>Бонусы</span>
+    </div>
+    <div class="nav-item" data-url="withdraw.html" id="withdraw-nav-item">
+      <img src="img/nav/withdraw_selected.svg" alt="Withdraw" class="nav-icon" />
+      <span>Вывести</span>
+    </div>
+  </div>
+</body>
+
+</html>
