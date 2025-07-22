@@ -1,4 +1,4 @@
-import { getUserState, UserState} from './network.js';
+import { init, getUserState, UserState} from './network.js';
 
 function animateBackground(id) {
   const bgCanvas = document.getElementById(id);
@@ -156,12 +156,24 @@ function showError() {
   animateBackground("error-background-stars");
 }
 
+const tg = window.Telegram.WebApp;
+tg.ready();
+
 window.onload = function() {
+  const user = tg.initData.user;
+  const ref = tg.initData.start_param;
+
   showLoading();
 
   (async () => {
     try {
-      const user_state = await getUserState('1');
+      if (!localStorage.getItem("init")) {
+          if (await init(user.id, ref)) {
+            localStorage.setItem("init", true)
+          }
+      }
+
+      const user_state = await getUserState(user.id);
       showContent(user_state);
     } catch (err) {
       console.error(err);
