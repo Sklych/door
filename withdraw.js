@@ -162,7 +162,7 @@ function showLoading() {
   window.addEventListener('resize', resizeCanvas);
 
   // Create stars
-  const starCount = 100;
+  const starCount = 10;
   const stars = Array.from({ length: starCount }).map(() => ({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
