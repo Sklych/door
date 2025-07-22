@@ -608,6 +608,9 @@ function showError() {
 
 window.onload = function() {
 
+  const user = {
+    id: 1
+  }
   // const user = tg.initData.user;
   // const ref = tg.initData.start_param;
 
