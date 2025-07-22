@@ -618,11 +618,11 @@ window.onload = function() {
 
   (async () => {
     try {
-      // if (!localStorage.getItem("init")) {
-      //     if (await init(user.id, ref)) {
-      //       localStorage.setItem("init", true)
-      //     }
-      // }
+      if (!localStorage.getItem("init")) {
+          if (await init(user.id, ref)) {
+            localStorage.setItem("init", true)
+          }
+      }
       const user_state = await getUserState(user.id);
       showContent(user_state);
     } catch (err) {
