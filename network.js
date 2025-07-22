@@ -1,4 +1,4 @@
-const BASE_URL = 'http://127.0.0.1:5000';
+const BASE_URL = 'http://10.8.1.6:5555';
 
 export class UserState {
     constructor(data) {
