@@ -1,4 +1,4 @@
-const BASE_URL = 'http://10.8.1.6:5555';
+const BASE_URL = 'https://flsdfl.pythonanywhere.com';
 
 export class UserState {
     constructor(data) {
