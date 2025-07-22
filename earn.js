@@ -59,6 +59,7 @@ function showContent(state) {
     document.getElementById("withdraw-nav-item").click();
   });
 
+  // todo главная вкладка иногда зависает намертво
   const container = document.querySelector('.container');
 
   for (const task of state.tasks) {
@@ -75,7 +76,7 @@ function showContent(state) {
           message: `🚀 Try out this app! Click here: ${state.referral.link}`
         });
       } else if (task.id == "subscribe_to_game_channel") {
-         window.open("https://t.me/sklych_bot", "_blank");
+         window.open("https://t.me/sklych_bot?start=flappytappy");
       }
     });
     container.appendChild(taskBtn);
