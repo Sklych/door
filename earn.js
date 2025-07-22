@@ -70,10 +70,12 @@ function showContent(state) {
     taskBtn.addEventListener('click', () => {
       console.log(task.id)
       if (task.id == "invite_friend") {
-        // todo share link
-        console.log(state.referral.link)
+        // todo change msg
+        window.Telegram.WebApp.share({
+          message: `🚀 Try out this app! Click here: ${state.referral.link}`
+        });
       } else if (task.id == "subscribe_to_game_channel") {
-        // todo handle. Try to get callback
+         window.open("https://t.me/sklych_bot", "_blank");
       }
     });
     container.appendChild(taskBtn);

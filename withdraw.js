@@ -40,7 +40,7 @@ function animateBackground(id) {
   animateStars();
 }
 
-function showContent(state, tonConnectUI) {
+function showContent(state, tonConnectUI, user) {
   document.getElementById('progress').style.display = 'none';
   document.getElementById('error-content').style.display = 'none';
   document.getElementById('main-content').style.display = 'block';
@@ -68,9 +68,8 @@ usdtBtn.addEventListener('click', () => {
           if (true) {
             (async () => {
               try {
-                // todo use real data
-                const uid = '1';
-                const tg_user_name = 'lol';
+                const uid = user.id;
+                const tg_user_name = user.username ?? user.first_name;
                 const amount = expectedAmountToWithDraw;
                 const wallet_info = tonConnectUI.wallet;
                 const actualAmountToWithDraw = (await postTransaction(uid, tg_user_name, amount, wallet_info)).withDrawAmount;
@@ -209,11 +208,13 @@ window.onload = function() {
 
   const user = tg.initData.user;
   const ref = tg.initData.start_param;
+  const user_lang = user.language_code ?? 'ru';
 
   showLoading();
 
   const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: 'https://pastebin.com/raw/B26zvtVz',
+    language: user_lang
   });
 
   (async () => {
