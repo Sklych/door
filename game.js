@@ -609,7 +609,8 @@ function showError() {
 window.onload = function() {
 
   const user = {
-    id: 1
+    id: 1,
+    ref: null
   }
   // const user = tg.initData.user;
   // const ref = tg.initData.start_param;
@@ -619,8 +620,10 @@ window.onload = function() {
   (async () => {
     try {
       if (!localStorage.getItem("init")) {
-          if (await init(user.id, ref)) {
+          if (await init(user.id, user.ref)) {
             localStorage.setItem("init", true)
+          } else {
+            showError();
           }
       }
       const user_state = await getUserState(user.id);
