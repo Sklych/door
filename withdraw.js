@@ -215,6 +215,7 @@ window.onload = function() {
   const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: 'https://pastebin.com/raw/B26zvtVz',
     language: user_lang,
+    buttonRootId: 'ton-connect-button', // id of the container
     walletsListConfiguration: {
       includeTelegramWallet: true // ✅ this enables TON Space
     }
