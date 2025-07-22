@@ -164,13 +164,14 @@ window.onload = function() {
   tg.ready();
   (async () => {
     try {
-      console.log("init tg ", tg)
-      console.log("init data ", tg.initData)
-      console.log("init datinitDataUnsafea ", tg.initDataUnsafe)
+      console.log("init tg ", tg);
+      console.log("init data ", tg.initData);
+      console.log("init datinitDataUnsafea ", tg.initDataUnsafe);
+      // console.log("user ", user)
+      console.log("user2 ", tg.initDataUnsafe.user);
+      onsole.log("userid ", tg.initDataUnsafe.user.id);
       const user = tg.initDataUnsafe.user;
       const ref = tg.initDataUnsafe.start_param;
-      console.log("user ", user)
-      console.log("user2 ", tg.initDataUnsafe.user)
       if (!localStorage.getItem("init")) {
         if (await init(user.id, ref)) {
           localStorage.setItem("init", true)
