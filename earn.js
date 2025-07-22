@@ -60,6 +60,8 @@ function showContent(state) {
   });
 
   // todo главная вкладка иногда зависает намертво
+  // todo изменить стиль у кнопок с заданиями
+  // todo Получить 0.2 X за каждого друга
   const container = document.querySelector('.container');
 
   for (const task of state.tasks) {
@@ -71,7 +73,7 @@ function showContent(state) {
     taskBtn.addEventListener('click', () => {
       console.log(task.id)
       if (task.id == "invite_friend") {
-        // todo change msg
+        // todo fix now it does not share
         window.Telegram.WebApp.share({
           message: `🚀 Try out this app! Click here: ${state.referral.link}`
         });

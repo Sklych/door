@@ -214,7 +214,10 @@ window.onload = function() {
 
   const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: 'https://pastebin.com/raw/B26zvtVz',
-    language: user_lang
+    language: user_lang,
+    walletsListConfiguration: {
+      includeTelegramWallet: true // ✅ this enables TON Space
+    }
   });
 
   (async () => {
