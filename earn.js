@@ -61,7 +61,8 @@ function showContent(state) {
 
   // todo главная вкладка иногда зависает намертво
   // todo изменить стиль у кнопок с заданиями
-  // todo Получить 0.2 X за каждого друга
+  // todo Изменить текст Получить 0.2 X за каждого друга
+  // todo вывод денег после подключения кошелька не работает
   const container = document.querySelector('.container');
 
   for (const task of state.tasks) {
