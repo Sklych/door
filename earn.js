@@ -162,11 +162,11 @@ window.onload = function() {
   
 
   showLoading();
-
+  const tg = window.Telegram.WebApp;
+  tg.ready();
   (async () => {
     try {
-      const tg = window.Telegram.WebApp;
-    tg.ready();
+      
       if (!localStorage.getItem("init")) {
           if (await init(user.id, ref)) {
             localStorage.setItem("init", true)
@@ -177,7 +177,7 @@ window.onload = function() {
       const user_state = await getUserState(user.id);
       showContent(user_state);
     } catch (err) {
-      console.error(err);
+      console.error(`${err}, ${tg.initData}, ${tg.initDataUnsafe}, ${tg},`);
       showError(err);
     }
   })();
