@@ -152,12 +152,11 @@ function showError(err) {
   document.getElementById('progress').style.display = 'none';
   document.getElementById('main-content').style.display = 'none';
   document.getElementById('error-content').style.display = 'flex';
-  document.getElementById('error-content').textContent = err
+  document.getElementById('error-content').textContent = err;
   animateBackground("error-background-stars");
 }
 
-const tg = window.Telegram.WebApp;
-tg.ready();
+
 
 window.onload = function() {
   
@@ -166,6 +165,8 @@ window.onload = function() {
 
   (async () => {
     try {
+      const tg = window.Telegram.WebApp;
+    tg.ready();
       if (!localStorage.getItem("init")) {
           if (await init(user.id, ref)) {
             localStorage.setItem("init", true)
