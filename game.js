@@ -603,23 +603,23 @@ function showError() {
   animateBackground("error-background-stars");
 }
 
-const tg = window.Telegram.WebApp;
-tg.ready();
+// const tg = window.Telegram.WebApp;
+// tg.ready();
 
 window.onload = function() {
 
-  const user = tg.initData.user;
-  const ref = tg.initData.start_param;
+  // const user = tg.initData.user;
+  // const ref = tg.initData.start_param;
 
   showLoading();
 
   (async () => {
     try {
-      if (!localStorage.getItem("init")) {
-          if (await init(user.id, ref)) {
-            localStorage.setItem("init", true)
-          }
-      }
+      // if (!localStorage.getItem("init")) {
+      //     if (await init(user.id, ref)) {
+      //       localStorage.setItem("init", true)
+      //     }
+      // }
       const user_state = await getUserState(user.id);
       showContent(user_state);
     } catch (err) {
