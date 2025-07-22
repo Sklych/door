@@ -218,13 +218,13 @@ window.onload = function() {
 
   (async () => {
     try {
-
+      const user = tg.initDataUnsafe.user;
+      const ref = tg.initDataUnsafe.start_param;
       if (!localStorage.getItem("init")) {
-          if (await init(user.id, ref)) {
-            localStorage.setItem("init", true)
-          }
+        if (await init(user.id, ref)) {
+          localStorage.setItem("init", true)
+        }
       }
-
       const user_state = await getUserState(user.id);
       if (user_state) {
         console.log(user_state)
@@ -236,8 +236,8 @@ window.onload = function() {
         showError();
       }
     } catch (err) {
-      console.error(err);
-      showError();
+      console.error(`${err}, ${tg.initData}, ${tg.initDataUnsafe}, ${tg},`);
+      showError(err);
     }
   })();
 

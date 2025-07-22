@@ -157,19 +157,13 @@ function showError(err) {
 }
 
 
-
+const tg = window.Telegram.WebApp;
+tg.ready();
 window.onload = function() {
   showLoading();
-  const tg = window.Telegram.WebApp;
-  tg.ready();
+  
   (async () => {
     try {
-      console.log("init tg ", tg);
-      console.log("init data ", tg.initData);
-      console.log("init datinitDataUnsafea ", tg.initDataUnsafe);
-      // console.log("user ", user)
-      console.log("user2 ", tg.initDataUnsafe.user);
-      console.log("userid ", tg.initDataUnsafe.user.id);
       const user = tg.initDataUnsafe.user;
       const ref = tg.initDataUnsafe.start_param;
       if (!localStorage.getItem("init")) {
@@ -178,7 +172,6 @@ window.onload = function() {
         }
       }
       const user_state = await getUserState(user.id);
-      
       showContent(user_state);
     } catch (err) {
       console.error(`${err}, ${tg.initData}, ${tg.initDataUnsafe}, ${tg},`);

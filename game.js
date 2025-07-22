@@ -603,36 +603,26 @@ function showError() {
   animateBackground("error-background-stars");
 }
 
-// const tg = window.Telegram.WebApp;
-// tg.ready();
+const tg = window.Telegram.WebApp;
+tg.ready();
 
 window.onload = function() {
-
-  const user = {
-    id: 1,
-    ref: null
-  }
-  // const user = tg.initData.user;
-  // const ref = tg.initData.start_param;
-
-  console.log(localStorage);
-  console.log(localStorage.getItem("init"));
   showLoading();
 
   (async () => {
     try {
+      const user = tg.initDataUnsafe.user;
+      const ref = tg.initDataUnsafe.start_param;
       if (!localStorage.getItem("init")) {
-          if (await init(user.id, user.ref)) {
-            localStorage.setItem("init", true)
-          } else {
-            showError();
-          }
+        if (await init(user.id, ref)) {
+          localStorage.setItem("init", true)
+        }
       }
       const user_state = await getUserState(user.id);
       showContent(user_state);
     } catch (err) {
-      console.error(err);
-      showError();
+      console.error(`${err}, ${tg.initData}, ${tg.initDataUnsafe}, ${tg},`);
+      showError(err);
     }
   })();
 
