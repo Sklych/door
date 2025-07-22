@@ -615,6 +615,8 @@ window.onload = function() {
   // const user = tg.initData.user;
   // const ref = tg.initData.start_param;
 
+  console.log(localStorage);
+  console.log(localStorage.getItem("init"));
   showLoading();
 
   (async () => {
