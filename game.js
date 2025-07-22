@@ -68,7 +68,7 @@ scrn.addEventListener("click", () => {
   switch (state.curr) {
     case state.getReady:
       state.curr = state.Play;
-      SFX.start.play();
+      // SFX.start.play();
       break;
     case state.Play:
       bird.flap();
@@ -84,7 +84,7 @@ scrn.addEventListener("click", () => {
       UI.score.curr = 0;
       UI.score.coefficient = 1;
       UI.uploadState = true;
-      SFX.played = false;
+      // SFX.played = false;
       break;
   }
 });
@@ -95,7 +95,7 @@ scrn.onkeydown = function keyDown(e) {
     switch (state.curr) {
       case state.getReady:
         state.curr = state.Play;
-        SFX.start.play();
+        // SFX.start.play();
         break;
       case state.Play:
         bird.flap();
@@ -111,7 +111,7 @@ scrn.onkeydown = function keyDown(e) {
         UI.score.curr = 0;
         UI.score.coefficient = 1;
         UI.uploadState = true;
-        SFX.played = false;
+        // SFX.played = false;
         break;
     }
   }
@@ -125,14 +125,14 @@ const state = {
   Play: 1,
   gameOver: 2,
 };
-const SFX = {
-  start: new Audio(),
-  flap: new Audio(),
-  score: new Audio(),
-  hit: new Audio(),
-  die: new Audio(),
-  played: false,
-};
+// const SFX = {
+//   start: new Audio(),
+//   flap: new Audio(),
+//   score: new Audio(),
+//   hit: new Audio(),
+//   die: new Audio(),
+//   played: false,
+// };
 const gnd = {
   sprite: new Image(),
   x: 0,
@@ -252,10 +252,10 @@ const bird = {
           this.speed = 0;
           this.y = gnd.y - r;
           this.rotatation = 90;
-          if (!SFX.played) {
-            SFX.die.play();
-            SFX.played = true;
-          }
+          // if (!SFX.played) {
+          //   SFX.die.play();
+          //   SFX.played = true;
+          // }
         }
 
         break;
@@ -264,7 +264,7 @@ const bird = {
   },
   flap: function () {
     if (this.y > 0) {
-      SFX.flap.play();
+      // SFX.flap.play();
       this.speed = -this.thrust;
     }
   },
@@ -287,7 +287,7 @@ const bird = {
     if (this.x + r >= x) {
       if (this.x + r < x + w) {
         if (this.y - r <= roof || this.y + r >= floor) {
-          SFX.hit.play();
+          // SFX.hit.play();
           return true;
         }
       } else if (pipe.moved) {
@@ -308,7 +308,7 @@ const bird = {
           }
         }
         UI.score.curr =  UI.score.curr + 1 * UI.score.coefficient;
-        SFX.score.play();
+        // SFX.score.play();
         pipe.moved = false;
       }
     }
@@ -495,11 +495,11 @@ bird.animations[0].sprite.src = "img/bird/b0.png";
 bird.animations[1].sprite.src = "img/bird/b1.png";
 bird.animations[2].sprite.src = "img/bird/b2.png";
 bird.animations[3].sprite.src = "img/bird/b0.png";
-SFX.start.src = "sfx/start.wav";
-SFX.flap.src = "sfx/flap.wav";
-SFX.score.src = "sfx/score.wav";
-SFX.hit.src = "sfx/hit.wav";
-SFX.die.src = "sfx/die.wav";
+// SFX.start.src = "sfx/start.wav";
+// SFX.flap.src = "sfx/flap.wav";
+// SFX.score.src = "sfx/score.wav";
+// SFX.hit.src = "sfx/hit.wav";
+// SFX.die.src = "sfx/die.wav";
 
 function gameLoop() {
   update();
