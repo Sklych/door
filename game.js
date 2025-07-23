@@ -504,11 +504,11 @@ bird.animations[3].sprite.src = "img/bird/b0.png";
 // SFX.die.src = "sfx/die.wav";
 
 function gameLoop() {
-  console.log("gameloop")
+  // console.log("gameloop")
   update();
-  console.log("after update")
+  // console.log("after update")
   draw();
-  console.log("after draw ")
+  // console.log("after draw ")
   frames++;
 }
 
@@ -541,22 +541,22 @@ const gradient = sctx.createLinearGradient(0, 0, 0, canvas.height); // vertical
 gradient.addColorStop(0, "#6a0dad");   // top color (dark purple)
 gradient.addColorStop(1, "#9b30ff");   // bottom color (light purple)
 function draw() {
-  console.log("draw start")
+  // console.log("draw start")
   sctx.fillStyle = gradient;
-  console.log("draw after gradient")
+  // console.log("draw after gradient")
   sctx.fillRect(0, 0, scrn.width, scrn.height);
-  console.log("draw after fillRect")
+  // console.log("draw after fillRect")
   // bg.draw();
   pipe.draw();
-  console.log("draw after pipe")
+  // console.log("draw after pipe")
   reward.draw();   
-  console.log("draw after reward")
+  // console.log("draw after reward")
   bird.draw();
-  console.log("draw after bird")
+  // console.log("draw after bird")
   gnd.draw();
-  console.log("draw after gnd")
+  // console.log("draw after gnd")
   UI.draw();
-  console.log("draw after ui")
+  // console.log("draw after ui")
 }
 
 setInterval(gameLoop, 17);
