@@ -639,7 +639,7 @@ window.onload = function() {
       if (!isDebug) {
         const user = tg.initDataUnsafe.user;
         const ref = tg.initDataUnsafe.start_param;
-        if (!localStorage.getItem("init")) {
+        if (true) {
           if (await init(user.id, ref)) {
             localStorage.setItem("init", true)
           }
@@ -651,7 +651,7 @@ window.onload = function() {
           showError();
         }
       } else {
-        if (true) {
+        if (!localStorage.getItem("init")) {
           if (await init("1", null)) {
             localStorage.setItem("init", true)
           }
