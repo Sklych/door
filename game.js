@@ -651,7 +651,7 @@ window.onload = function() {
           showError();
         }
       } else {
-        if (!localStorage.getItem("init")) {
+        if (true) {
           if (await init("1", null)) {
             localStorage.setItem("init", true)
           }
