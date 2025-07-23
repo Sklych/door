@@ -75,9 +75,9 @@ function showContent(state) {
          window.open(`http://t.me/share/url?url=${state.referral.link}&text=${state.referral.inviteText}`);
       } else if (task.id == "subscribe_to_game_channel") {
          if (!isDebug) {
-            window.open("https://t.me/sklych_bot?start=flappytappy");
-         } else {
           Telegram.WebApp.openTelegramLink("https://t.me/sklych_bot?start=flappytappy");
+         } else {
+          window.open("https://t.me/sklych_bot?start=flappytappy");
          }
          (async () => {
           try {
