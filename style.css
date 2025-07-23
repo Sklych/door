@@ -122,22 +122,38 @@ html {
   }
   
   .subscribe-bonus {
-    width: 100%;
-    max-width: 400px;                  /* ограничим ширину для читаемости */
-    background: linear-gradient(135deg, #2d2b2a, #373535);
+    background-color: #26A17B;  /* Tether USDT green */
     color: white;
-    font-size: 16px;
-    padding: 14px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 24px;
+    border: none;
     border-radius: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(38, 161, 123, 0.3);
+    transition: background-color 0.3s ease;
+    user-select: none;
+    margin-left: 10px;
+    margin-right: 10px;
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
+
+  .subscribe-bonu {
+    background-color: #208e6a;
+  }
+
+  .subscribe-bonu {
+    background-color: #1a7358;
+  }
+
 
   .friends-invited {
     margin-top: 12px;
     color: #ccc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
     font-size: 14px;
-    font-family: 'Squada One', sans-serif;
     text-align: center;
   }
 

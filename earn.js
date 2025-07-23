@@ -1,4 +1,4 @@
-import { init, getUserState, UserState} from './network.js';
+import { isDebug, init, getUserState, postTaskComplete, UserState} from './network.js';
 
 function animateBackground(id) {
   const bgCanvas = document.getElementById(id);
@@ -60,9 +60,8 @@ function showContent(state) {
   });
 
   // todo главная вкладка иногда зависает намертво
-  // todo изменить стиль у кнопок с заданиями
-  // todo Изменить текст Получить 0.2 X за каждого друга
-  // todo вывод денег после подключения кошелька не работает
+  // todo проверить вывод денег в аппе после подключения кошелька не работает
+  // todo проверить приглашение по рефке
   const container = document.querySelector('.container');
 
   for (const task of state.tasks) {
@@ -72,14 +71,42 @@ function showContent(state) {
     taskBtn.id = task.id;
     taskBtn.textContent = task.title;
     taskBtn.addEventListener('click', () => {
-      console.log(task.id)
       if (task.id == "invite_friend") {
-        // todo fix now it does not share
-        window.Telegram.WebApp.share({
-          message: `🚀 Try out this app! Click here: ${state.referral.link}`
-        });
+         window.open(`http://t.me/share/url?url=${state.referral.link}&text=${state.referral.inviteText}`);
       } else if (task.id == "subscribe_to_game_channel") {
          window.open("https://t.me/sklych_bot?start=flappytappy");
+         (async () => {
+          try {
+            if (!isDebug) {
+              await postTaskComplete(state.user.id, task.id);
+            } else {
+              await postTaskComplete("1", task.id);
+            }
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000); 
+          } catch (err) {
+            console.error(err);
+            showError(err);
+          }
+        })();
+      } else if (task.id == "add_sklych_to_group") {
+         window.open("https://t.me/sklych_bot?startgroup=new");
+         (async () => {
+          try {
+            if (!isDebug) {
+              await postTaskComplete(state.user.id, task.id);
+            } else {
+              await postTaskComplete("1", task.id);
+            }
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000); 
+          } catch (err) {
+            console.error(err);
+            showError(err);
+          }
+        })();
       }
     });
     container.appendChild(taskBtn);
@@ -90,7 +117,6 @@ function showContent(state) {
   friendsInvitedText.id = 'friends-invited'
   friendsInvitedText.textContent = `Друзей приглашено: ${state.referral.friendsInvited}`
   container.appendChild(friendsInvitedText);
-
 }
 
 function animateText(from, to, textId, postfix, precision=1) {
@@ -111,47 +137,6 @@ function animateText(from, to, textId, postfix, precision=1) {
 
 function showLoading() {
   document.getElementById('progress').style.display = 'block';
-  const canvas = document.getElementById('loading-canvas');
-  const ctx = canvas.getContext('2d');
-
-  // Resize canvas to fill the screen
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-
-  // Create stars
-  const starCount = 10;
-  const stars = Array.from({ length: starCount }).map(() => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    radius: Math.random() * 2 + 1,
-    speed: Math.random() * 2 + 0.5,
-  }));
-
-  // Animate stars
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'white';
-
-    stars.forEach(star => {
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-      ctx.fill();
-
-      star.y += star.speed;
-      if (star.y > canvas.height) {
-        star.y = 0;
-        star.x = Math.random() * canvas.width;
-      }
-    });
-
-    requestAnimationFrame(animate);
-  }
-
-  animate();
 }
 
 function showError(err) {
@@ -162,25 +147,50 @@ function showError(err) {
   animateBackground("error-background-stars");
 }
 
-
-const tg = window.Telegram.WebApp;
-tg.ready();
+let tg = null;
+if (!isDebug) {
+  tg = window.Telegram.WebApp;
+  tg.ready();
+}
 window.onload = function() {
   showLoading();
   
   (async () => {
     try {
-      const user = tg.initDataUnsafe.user;
-      const ref = tg.initDataUnsafe.start_param;
-      if (!localStorage.getItem("init")) {
-        if (await init(user.id, ref)) {
-          localStorage.setItem("init", true)
+      if (!isDebug) {
+        const user = tg.initDataUnsafe.user;
+        const ref = tg.initDataUnsafe.start_param;
+        if (!localStorage.getItem("init")) {
+          if (await init(user.id, ref)) {
+            localStorage.setItem("init", true)
+          }
+        }
+        const user_state = await getUserState(user.id);
+        if (user_state) {
+          showContent(user_state);
+        } else {
+          showError();
+        }
+      } else {
+        const ref = null;
+        if (!localStorage.getItem("init")) {
+          if (await init("1", null)) {
+            localStorage.setItem("init", true)
+          }
+        }
+        const user_state = await getUserState("1");
+        if (user_state) {
+          showContent(user_state);
+        } else {
+          showError();
         }
       }
-      const user_state = await getUserState(user.id);
-      showContent(user_state);
     } catch (err) {
-      console.error(`${err}, ${tg.initData}, ${tg.initDataUnsafe}, ${tg},`);
+      if (!isDebug) {
+        console.error(`${err}, ${tg.initData}, ${tg.initDataUnsafe}, ${tg},`);
+      } else {
+        console.error(`${err}`)
+      }
       showError(err);
     }
   })();

@@ -1,4 +1,4 @@
-import { init, getUserState, postTransaction, UserState} from './network.js';
+import { isDebug, init, getUserState, postTransaction, UserState} from './network.js';
 
 function animateBackground(id) {
   const bgCanvas = document.getElementById(id);
@@ -63,18 +63,26 @@ usdtBtn.addEventListener('click', () => {
     
     usdtButton.addEventListener("click", function () {
         if (tonConnectUI.wallet) {
-          console.log(tonConnectUI.wallet.account)
-          const expectedAmountToWithDraw = 0.001;
-          if (true) {
+          const expectedAmountToWithDraw = state.balance.value;
+          if (state.balance.value >= state.balance.minWithDrawAmount) {
             (async () => {
               try {
-                const uid = user.id;
-                const tg_user_name = user.username ?? user.first_name;
+                let uid = null;
+                let tg_user_name = null;
+                if (!isDebug) {
+                  uid = user.id;
+                  tg_user_name = user.username ?? user.first_name;
+                } else {
+                  uid = "1";
+                  tg_user_name = "test";
+                }
+                
                 const amount = expectedAmountToWithDraw;
-                const wallet_info = tonConnectUI.wallet;
+                const wallet_info = tonConnectUI.wallet.account;
                 const actualAmountToWithDraw = (await postTransaction(uid, tg_user_name, amount, wallet_info)).withDrawAmount;
                 state.balance.value -= actualAmountToWithDraw;
-                showContent(state, tonConnectUI);
+                animateText(0.0, state.balance.value, "usdt-text", "", state.balance.precision)
+                usdtButton.textContent = `Вывести ${state.balance.value.toFixed(state.balance.precision)} USDT`
                 requestWithDraw(actualAmountToWithDraw, state.balance.precision);
               } catch (err) {
                 console.error(err);
@@ -150,47 +158,6 @@ function animateText(from, to, textId, postfix, precision=1) {
 
 function showLoading() {
   document.getElementById('progress').style.display = 'block';
-  const canvas = document.getElementById('loading-canvas');
-  const ctx = canvas.getContext('2d');
-
-  // Resize canvas to fill the screen
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-
-  // Create stars
-  const starCount = 10;
-  const stars = Array.from({ length: starCount }).map(() => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    radius: Math.random() * 2 + 1,
-    speed: Math.random() * 2 + 0.5,
-  }));
-
-  // Animate stars
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'white';
-
-    stars.forEach(star => {
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-      ctx.fill();
-
-      star.y += star.speed;
-      if (star.y > canvas.height) {
-        star.y = 0;
-        star.x = Math.random() * canvas.width;
-      }
-    });
-
-    requestAnimationFrame(animate);
-  }
-
-  animate();
 }
 
 function showError() {
@@ -201,41 +168,65 @@ function showError() {
   animateBackground("error-background-stars");
 }
 
-const tg = window.Telegram.WebApp;
-tg.ready();
+let tg = null;
+if (!isDebug) {
+  tg = window.Telegram.WebApp;
+  tg.ready();
+}
 
 window.onload = function() {
 
-  const user = tg.initDataUnsafe.user;
-  const ref = tg.initDataUnsafe.start_param;
-  const user_lang = user.language_code ?? 'ru';
+  
 
   showLoading();
 
-  const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-    manifestUrl: 'https://pastebin.com/raw/B26zvtVz',
-    language: user_lang,
-  });
+  
 
   (async () => {
     try {
-      if (!localStorage.getItem("init")) {
-        if (await init(user.id, ref)) {
-          localStorage.setItem("init", true)
+      if (!isDebug) {
+        const user = tg.initDataUnsafe.user;
+        const ref = tg.initDataUnsafe.start_param;
+        const user_lang = user.language_code ?? 'en';
+
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+          manifestUrl: 'https://pastebin.com/raw/B26zvtVz',
+          language: user_lang,
+        });
+        if (!localStorage.getItem("init")) {
+          if (await init(user.id, ref)) {
+            localStorage.setItem("init", true)
+          }
         }
-      }
-      const user_state = await getUserState(user.id);
-      if (user_state) {
-        console.log(user_state)
-        if (tonConnectUI.wallet) {
-          showWalletConnectedToast();
+        const user_state = await getUserState(user.id);
+        if (user_state) {
+          showContent(user_state, tonConnectUI);
+        } else {
+          showError();
         }
-        showContent(user_state, tonConnectUI);
       } else {
-        showError();
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+          manifestUrl: 'https://pastebin.com/raw/B26zvtVz',
+          language: 'en',
+        });
+        if (!localStorage.getItem("init")) {
+          if (await init("1", null)) {
+            localStorage.setItem("init", true)
+          }
+        }
+        const user_state = await getUserState("1");
+        if (user_state) {
+          showContent(user_state, tonConnectUI);
+        } else {
+          showError();
+        }
       }
     } catch (err) {
-      console.error(`${err}, ${tg.initData}, ${tg.initDataUnsafe}, ${tg},`);
+      if (!isDebug) {
+        console.error(`${err}, ${tg.initData}, ${tg.initDataUnsafe}, ${tg},`);
+      } else {
+        console.error(`${err}`)
+      }
       showError(err);
     }
   })();

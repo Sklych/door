@@ -1,4 +1,4 @@
-import { init, getUserState, updateUserState, UserState} from './network.js';
+import { isDebug, init, getUserState, updateUserState, UserState} from './network.js';
 
 function animateBackground(id) {
   const bgCanvas = document.getElementById(id);
@@ -41,9 +41,11 @@ function animateBackground(id) {
 }
 
 function showContent(user_state) {
+  console.log("showContent")
   document.getElementById('progress').style.display = 'none';
   document.getElementById('error-content').style.display = 'none';
   document.getElementById('main-content').style.display = 'block';
+  console.log("showContent after changing visibiility")
   
   animateBackground("content-background-stars");
   
@@ -502,8 +504,11 @@ bird.animations[3].sprite.src = "img/bird/b0.png";
 // SFX.die.src = "sfx/die.wav";
 
 function gameLoop() {
+  console.log("gameloop")
   update();
+  console.log("after update")
   draw();
+  console.log("after draw ")
   frames++;
 }
 
@@ -536,68 +541,29 @@ const gradient = sctx.createLinearGradient(0, 0, 0, canvas.height); // vertical
 gradient.addColorStop(0, "#6a0dad");   // top color (dark purple)
 gradient.addColorStop(1, "#9b30ff");   // bottom color (light purple)
 function draw() {
-  
+  console.log("draw start")
   sctx.fillStyle = gradient;
+  console.log("draw after gradient")
   sctx.fillRect(0, 0, scrn.width, scrn.height);
+  console.log("draw after fillRect")
   // bg.draw();
   pipe.draw();
+  console.log("draw after pipe")
   reward.draw();   
+  console.log("draw after reward")
   bird.draw();
+  console.log("draw after bird")
   gnd.draw();
+  console.log("draw after gnd")
   UI.draw();
+  console.log("draw after ui")
 }
 
-// setInterval(gameLoop, 20);
-function loop() {
-  gameLoop();
-  requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
+setInterval(gameLoop, 17);
 }
 
 function showLoading() {
   document.getElementById('progress').style.display = 'block';
-  const canvas = document.getElementById('loading-canvas');
-  const ctx = canvas.getContext('2d');
-
-  // Resize canvas to fill the screen
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-
-  // Create stars
-  const starCount = 10;
-  const stars = Array.from({ length: starCount }).map(() => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    radius: Math.random() * 2 + 1,
-    speed: Math.random() * 2 + 0.5,
-  }));
-
-  // Animate stars
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'white';
-
-    stars.forEach(star => {
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-      ctx.fill();
-
-      star.y += star.speed;
-      if (star.y > canvas.height) {
-        star.y = 0;
-        star.x = Math.random() * canvas.width;
-      }
-    });
-
-    requestAnimationFrame(animate);
-  }
-
-  animate();
 }
 
 function showError() {
@@ -608,25 +574,101 @@ function showError() {
   animateBackground("error-background-stars");
 }
 
-const tg = window.Telegram.WebApp;
-tg.ready();
+let tg = null;
+if (!isDebug) {
+  tg = window.Telegram.WebApp;
+  tg.ready();
+}
+
+
+window.onerror = function(msg, url, line, col, error) {
+  // Note that col & error are new to the HTML 5 spec and may not be 
+  // supported in every browser.  It worked for me in Chrome.
+  var extra = !col ? '' : '\ncolumn: ' + col;
+  extra += !error ? '' : '\nerror: ' + error;
+
+  // You can view the information in an alert to see things working like this:
+  alert("Error: " + msg + "\nurl: " + url + "\nline: " + line + extra);
+
+
+  var suppressErrorAlert = true;
+  // If you return true, then error alerts (like in older versions of 
+  // Internet Explorer) will be suppressed.
+  return suppressErrorAlert;
+};
+
+console.log("before set window.onLoad")
 
 window.onload = function() {
   showLoading();
+  // const user_state = {};
 
+// const json = {
+//   "uid": "1",
+//   "score": { "best": 12 },
+//   "balance": {
+//     "value": 1.3364400000000034,
+//     "minWithDrawAmount": 0.03,
+//     "precision": 5
+//   },
+//   "reward": {
+//     "coefficient": 2.0,
+//     "usdtValue": 0.002,
+//     "probability": 20
+//   },
+//   "referral": {
+//     "friendsInvited": 6,
+//     "link": "https://invite?ref=1"
+//   },
+//   "tasks": [
+//     {
+//       "id": "invite_friend",
+//       "tg_uid": "1",
+//       "title": "Пригласить друга и увеличить коэффициент на 0.2X",
+//       "reward_coefficient": 0.2,
+//       "status": 0
+//     }
+//   ]
+// };
+
+// Fill user_state
+// Object.assign(user_state, json);
+  // showContent(user_state);
   (async () => {
     try {
-      const user = tg.initDataUnsafe.user;
-      const ref = tg.initDataUnsafe.start_param;
-      if (!localStorage.getItem("init")) {
-        if (await init(user.id, ref)) {
-          localStorage.setItem("init", true)
+      if (!isDebug) {
+        const user = tg.initDataUnsafe.user;
+        const ref = tg.initDataUnsafe.start_param;
+        if (!localStorage.getItem("init")) {
+          if (await init(user.id, ref)) {
+            localStorage.setItem("init", true)
+          }
+        }
+        const user_state = await getUserState(user.id);
+        if (user_state) {
+          showContent(user_state);
+        } else {
+          showError();
+        }
+      } else {
+        if (!localStorage.getItem("init")) {
+          if (await init("1", null)) {
+            localStorage.setItem("init", true)
+          }
+        }
+        const user_state = await getUserState("1");
+        if (user_state) {
+          showContent(user_state);
+        } else {
+          showError();
         }
       }
-      const user_state = await getUserState(user.id);
-      showContent(user_state);
     } catch (err) {
-      console.error(`${err}, ${tg.initData}, ${tg.initDataUnsafe}, ${tg},`);
+      if (!isDebug) {
+        console.error(`${err}, ${tg.initData}, ${tg.initDataUnsafe}, ${tg},`);
+      } else {
+        console.error(`${err}`)
+      }
       showError(err);
     }
   })();
