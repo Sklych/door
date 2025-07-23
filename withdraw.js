@@ -200,7 +200,7 @@ window.onload = function() {
         }
         const user_state = await getUserState(user.id);
         if (user_state) {
-          showContent(user_state, tonConnectUI);
+          showContent(user_state, tonConnectUI, user);
         } else {
           showError();
         }

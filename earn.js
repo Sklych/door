@@ -82,7 +82,7 @@ function showContent(state) {
          (async () => {
           try {
             if (!isDebug) {
-              await postTaskComplete(state.user.id, task.id);
+              await postTaskComplete(state.user.uid, task.id);
             } else {
               await postTaskComplete("1", task.id);
             }
@@ -99,7 +99,7 @@ function showContent(state) {
          (async () => {
           try {
             if (!isDebug) {
-              await postTaskComplete(state.user.id, task.id);
+              await postTaskComplete(state.user.uid, task.id);
             } else {
               await postTaskComplete("1", task.id);
             }
