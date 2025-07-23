@@ -1,4 +1,8 @@
-const BASE_URL = 'https://flsdfl.pythonanywhere.com';
+export const isDebug = false;
+let BASE_URL = 'https://flsdfl.pythonanywhere.com';
+if (isDebug) {
+  BASE_URL = 'http://127.0.0.1:5000';
+}
 
 export class UserState {
     constructor(data) {
