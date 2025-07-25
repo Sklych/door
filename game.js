@@ -640,8 +640,8 @@ window.onload = function() {
         const user = tg.initDataUnsafe.user;
         const ref = tg.initDataUnsafe.start_param;
         console.log(tg.initDataUnsafe);
-        if (!localStorage.getItem("init")) {
-
+        console.log("READ REF ", ref);
+        if (true) {
           if (await init(user.id, ref)) {
             localStorage.setItem("init", true)
           }
