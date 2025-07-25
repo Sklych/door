@@ -72,7 +72,7 @@ function showContent(state) {
   const container = document.querySelector('.container');
 
   const infoText = document.createElement('div');
-  infoText.className = 'info-text';
+  friendsInvitedText.className = 'friends-invited'
   infoText.id = 'info-text';
   infoText.textContent = state.tasksPage.coefficientInfoText;
   container.appendChild(infoText);
