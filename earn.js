@@ -84,14 +84,13 @@ function showContent(state) {
           } catch(err) {
             console.error(err);
           }
-        
          } else {
           window.open("https://t.me/sklych_bot?start=flappytappy");
          }
          (async () => {
           try {
             if (!isDebug) {
-              await postTaskComplete(state.user.uid, task.id);
+              await postTaskComplete(state.uid, task.id);
             } else {
               await postTaskComplete("1", task.id);
             }
@@ -108,7 +107,7 @@ function showContent(state) {
          (async () => {
           try {
             if (!isDebug) {
-              await postTaskComplete(state.user.uid, task.id);
+              await postTaskComplete(state.uid, task.id);
             } else {
               await postTaskComplete("1", task.id);
             }
