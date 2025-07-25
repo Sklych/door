@@ -141,11 +141,15 @@ const gnd = {
   y: 0,
   draw: function () {
     this.y = scrn.height - this.sprite.height;
-    console.log(`gnd draw() this.y ${this.y}`)
+    console.log(`gnd draw() this.y ${this.y}, scrn.width ${scrn.width}, this.sprite.width ${this.sprite.width}`)
     let count = Math.ceil(scrn.width / this.sprite.width) + 1;
-    console.log(`gnd draw() count ${count}`)
-    for (let i = 0; i < count; i++) {
-      sctx.drawImage(this.sprite, this.x + i * this.sprite.width, this.y);
+    if (count != Infinity) {
+      console.log(`gnd draw() count ${count}`)
+      for (let i = 0; i < count; i++) {
+        sctx.drawImage(this.sprite, this.x + i * this.sprite.width, this.y);
+      }
+    } else {
+      console.log("Count is Infinity");
     }
   },
   update: function () {
