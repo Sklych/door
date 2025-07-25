@@ -582,26 +582,67 @@ if (!isDebug) {
 
 
 window.onerror = function(msg, url, line, col, error) {
-  // Note that col & error are new to the HTML 5 spec and may not be 
-  // supported in every browser.  It worked for me in Chrome.
-  var extra = !col ? '' : '\ncolumn: ' + col;
-  extra += !error ? '' : '\nerror: ' + error;
-
-  // You can view the information in an alert to see things working like this:
-  alert("Error: " + msg + "\nurl: " + url + "\nline: " + line + extra);
-
-
-  var suppressErrorAlert = true;
-  // If you return true, then error alerts (like in older versions of 
-  // Internet Explorer) will be suppressed.
-  return suppressErrorAlert;
+  window.location.reload();
 };
 
 console.log("before set window.onLoad")
 
+const worker = new Worker("anr.js");
+let lastPing = Date.now();
+worker.onmessage = (e) => {
+  if (e.data === "check") {
+    const now = Date.now();
+    const delay = now - lastPing;
+    console.log("Main thread delay:", delay, "ms");
+
+    // Detect freeze if delay > threshold (e.g. 300ms)
+    if (delay > 300) {
+      console.warn("⚠️ Main thread was blocked!");
+    }
+
+    lastPing = now;
+  }
+};
+
 window.onload = function() {
   showLoading();
-  
+//   setTimeout(() => {
+//     const user_state = {};
+
+// const json = {
+//   "uid": "1",
+//   "score": { "best": 12 },
+//   "balance": {
+//     "value": 1.3364400000000034,
+//     "minWithDrawAmount": 0.03,
+//     "precision": 5
+//   },
+//   "reward": {
+//     "coefficient": 2.0,
+//     "usdtValue": 0.002,
+//     "probability": 20
+//   },
+//   "referral": {
+//     "friendsInvited": 6,
+//     "link": "https://invite?ref=1"
+//   },
+//   "tasks": [
+//     {
+//       "id": "invite_friend",
+//       "tg_uid": "1",
+//       "title": "Пригласить друга и увеличить коэффициент на 0.2X",
+//       "reward_coefficient": 0.2,
+//       "status": 0
+//     }
+//   ]
+// };
+
+// // Fill user_state
+// Object.assign(user_state, json);
+//   showContent(user_state);
+//   return
+
+setTimeout(() => {
   (async () => {
     try {
       if (!isDebug) {
@@ -643,6 +684,9 @@ window.onload = function() {
       showError(err);
     }
   })();
+}, 3000)
+  
+  
 
   document.querySelectorAll('.nav-item').forEach(item => {
       item.addEventListener('click', () => {
