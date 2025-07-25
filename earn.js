@@ -53,8 +53,6 @@ function showContent(state) {
   document.getElementById('error-content').style.display = 'none';
   document.getElementById('main-content').style.display = 'block';
 
-  document.getElementById("friends-invited-text").textContent = state.tasksPage.coefficientInfoText;
-
   animateText(0.0, state.balance.value, "usdt-text", "", state.balance.precision)
   animateText(0.0, state.reward.coefficient, "coefficient-text", " X")
     
@@ -73,10 +71,10 @@ function showContent(state) {
   // todo добавить таску на пиар через тикток/ютуб шортс
   const container = document.querySelector('.container');
 
-  const infoText = document.createElement('div')
-  infoText.className = 'info-text'
-  infoText.id = 'info-text'
-  infoText.textContent = `${state.tasksPage.coefficientInfoText}`
+  const infoText = document.createElement('div');
+  infoText.className = 'info-text';
+  infoText.id = 'info-text';
+  infoText.textContent = state.tasksPage.coefficientInfoText;
   container.appendChild(infoText);
 
   for (const task of state.tasks) {
