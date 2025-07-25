@@ -186,19 +186,14 @@ window.onload = function() {
     try {
       if (!isDebug) {
         const user = tg.initDataUnsafe.user;
-        const ref = tg.initDataUnsafe.start_param;
         const language = user.language_code ?? 'en';
+        const ref = tg.initDataUnsafe.start_param;
 
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
           manifestUrl: 'https://pastebin.com/raw/B26zvtVz',
           language: language,
         });
-        if (!localStorage.getItem("init")) {
-          if (await init(user.id, language, ref)) {
-            localStorage.setItem("init", true)
-          }
-        }
-        const user_state = await getUserState(user.id);
+        const user_state = await getUserState(user.id, language, ref);
         if (user_state) {
           showContent(user_state, tonConnectUI, user);
         } else {
@@ -209,12 +204,10 @@ window.onload = function() {
           manifestUrl: 'https://pastebin.com/raw/B26zvtVz',
           language: 'en',
         });
-        if (!localStorage.getItem("init")) {
-          if (await init("1", "en", null)) {
-            localStorage.setItem("init", true)
-          }
-        }
-        const user_state = await getUserState("1");
+        const uid = "1";
+        const language = "en";
+        const ref = null;
+        const user_state = await getUserState(uid, language, ref);
         if (user_state) {
           showContent(user_state, tonConnectUI);
         } else {

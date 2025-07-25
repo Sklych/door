@@ -16,41 +16,17 @@ export class UserState {
     }
   }
 
-export async function init(uid, language, ref = null) {
-  if (!uid) {
-    console.error("init: uid is required");
-    return null;
-  }
-  if (!language) {
-    console.error("init: language is required");
-    return null;
-  }
-  const params = new URLSearchParams({ uid });
-  params.append('language', language);
-  if (ref) params.append('ref', ref);
-
-  try {
-    const res = await fetch(`${BASE_URL}/init?${params.toString()}`, { method: 'GET' });
-    if (!res.ok) {
-      const text = await res.text();
-      console.error(`Init failed: ${text}`);
-      return null;
-    }
-    return await res.text();
-  } catch (e) {
-    console.error('Init fetch error:', e);
-    return null;
-  }
-}
-
-export async function getUserState(uid) {
+export async function getUserState(uid, language, ref) {
     if (!uid) {
       console.error("getConfig: uid is required");
       return null;
     }
   
+    const params = new URLSearchParams({ uid, language });
+    if (ref) params.append('ref', ref);
+
     try {
-      const res = await fetch(`${BASE_URL}/config?uid=${encodeURIComponent(uid)}`, { method: 'GET' });
+      const res = await fetch(`${BASE_URL}/config?${params.toString()}`, { method: 'GET' });
       if (!res.ok) {
         const text = await res.text();
         console.error(`Get config failed: ${text}`);

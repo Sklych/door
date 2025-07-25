@@ -655,28 +655,23 @@ setTimeout(() => {
     try {
       if (!isDebug) {
         const user = tg.initDataUnsafe.user;
+        const language = user.language_code;
         const ref = tg.initDataUnsafe.start_param;
         console.log(tg.initDataUnsafe);
-        console.log("READ REF ", ref);
-        console.log("READ Language code ", user.language_code);
-        if (!localStorage.getItem("init")) {
-          if (await init(user.id, user.language_code ?? 'en', ref)) {
-            localStorage.setItem("init", true)
-          }
-        }
-        const user_state = await getUserState(user.id);
+        console.log("READ user ", user);
+        console.log("READ ref ", ref);
+        console.log("READ language code ", language);
+        const user_state = await getUserState(user.id, language ?? 'en', ref);
         if (user_state) {
           showContent(user_state);
         } else {
           showError();
         }
       } else {
-        if (!localStorage.getItem("init")) {
-          if (await init("1", "en", null)) {
-            localStorage.setItem("init", true)
-          }
-        }
-        const user_state = await getUserState("1");
+        const uid = "1";
+        const language = "en";
+        const ref = null;
+        const user_state = await getUserState(uid, language, ref);
         if (user_state) {
           showContent(user_state);
         } else {

@@ -161,14 +161,9 @@ window.onload = function() {
     try {
       if (!isDebug) {
         const user = tg.initDataUnsafe.user;
-        const ref = tg.initDataUnsafe.start_param;
         const language = user.language_code;
-        if (!localStorage.getItem("init")) {
-          if (await init(user.id, language, ref)) {
-            localStorage.setItem("init", true)
-          }
-        }
-        const user_state = await getUserState(user.id);
+        const ref = tg.initDataUnsafe.start_param;
+        const user_state = await getUserState(user.id, language ?? 'en', ref);
         if (user_state) {
           showContent(user_state);
         } else {
@@ -176,14 +171,9 @@ window.onload = function() {
         }
       } else {
         const uid = "1";
-        const ref = null;
         const language = "en";
-        if (!localStorage.getItem("init")) {
-          if (await init(uid, language, ref)) {
-            localStorage.setItem("init", true)
-          }
-        }
-        const user_state = await getUserState("1");
+        const ref = null;
+        const user_state = await getUserState(uid, language, ref);
         if (user_state) {
           showContent(user_state);
         } else {
