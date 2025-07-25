@@ -545,8 +545,6 @@ const gradient = sctx.createLinearGradient(0, 0, 0, canvas.height); // vertical
 gradient.addColorStop(0, "#6a0dad");   // top color (dark purple)
 gradient.addColorStop(1, "#9b30ff");   // bottom color (light purple)
 function draw() {
-  console.log("draw start")
-  bird.draw();
   console.log("draw after bird")
   sctx.fillStyle = gradient;
   console.log("draw after gradient")
@@ -557,6 +555,8 @@ function draw() {
   console.log("draw after pipe")
   reward.draw();   
   console.log("draw after reward")
+  console.log("draw start")
+  bird.draw();
   gnd.draw();
   console.log("draw after gnd")
   UI.draw();
