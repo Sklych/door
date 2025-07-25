@@ -12,6 +12,7 @@ export class UserState {
       this.reward = data.reward;
       this.referral = data.referral;
       this.tasks = data.tasks;
+      this.bot = data.bot;
     }
   }
 
