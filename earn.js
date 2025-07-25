@@ -59,11 +59,9 @@ function showContent(state) {
     document.getElementById("withdraw-nav-item").click();
   });
 
-  // todo главная вкладка иногда зависает намертво
-
   // stage2
-  // todo добавить таску на пиар через тикток/ютуб шортс
   // todo сделать фулл локализацию аппки
+  // todo добавить таску на пиар через тикток/ютуб шортс
   const container = document.querySelector('.container');
 
   for (const task of state.tasks) {

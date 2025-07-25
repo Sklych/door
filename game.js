@@ -550,7 +550,7 @@ function draw() {
   UI.draw();
 }
 
-setInterval(gameLoop, 17);
+setInterval(gameLoop, 13);
 }
 
 function showLoading() {
