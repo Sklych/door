@@ -41,9 +41,19 @@ function animateBackground(id) {
 }
 
 function showContent(state) {
+  const playSpan = document.getElementById("play_nav_item");
+  const tasksSpan = document.getElementById("tasks_nav_item");
+  const cashoutSpan = document.getElementById("cash_out_nav_item");
+
+  playSpan.textContent = state.bottombar.playItem.title;
+  tasksSpan.textContent = state.bottombar.tasksItem.title;
+  cashoutSpan.textContent = state.bottombar.withdrawItem.title;
+
   document.getElementById('progress').style.display = 'none';
   document.getElementById('error-content').style.display = 'none';
   document.getElementById('main-content').style.display = 'block';
+
+  document.getElementById("friends-invited-text").textContent = state.tasksPage.coefficientInfoText;
 
   animateText(0.0, state.balance.value, "usdt-text", "", state.balance.precision)
   animateText(0.0, state.reward.coefficient, "coefficient-text", " X")
@@ -60,9 +70,14 @@ function showContent(state) {
   });
 
   // stage2
-  // todo сделать фулл локализацию аппки
   // todo добавить таску на пиар через тикток/ютуб шортс
   const container = document.querySelector('.container');
+
+  const infoText = document.createElement('div')
+  infoText.className = 'info-text'
+  infoText.id = 'info-text'
+  infoText.textContent = `${state.tasksPage.coefficientInfoText}`
+  container.appendChild(infoText);
 
   for (const task of state.tasks) {
     console.log(task)
@@ -115,7 +130,7 @@ function showContent(state) {
   const friendsInvitedText = document.createElement('div')
   friendsInvitedText.className = 'friends-invited'
   friendsInvitedText.id = 'friends-invited'
-  friendsInvitedText.textContent = `Друзей приглашено: ${state.referral.friendsInvited}`
+  friendsInvitedText.textContent = `${state.tasksPage.friendsInvitedPrefix}: ${state.referral.friendsInvited}`
   container.appendChild(friendsInvitedText);
 }
 
