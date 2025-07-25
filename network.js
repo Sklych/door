@@ -19,7 +19,7 @@ export class UserState {
     }
   }
 
-export async function getUserState(uid, language, ref) {
+export async function getUserState(uid, language, ref, meta) {
     if (!uid) {
       console.error("getConfig: uid is required");
       return null;
@@ -27,6 +27,7 @@ export async function getUserState(uid, language, ref) {
   
     const params = new URLSearchParams({ uid, language });
     if (ref) params.append('ref', ref);
+    if (meta) params.append('meta', meta);
 
     try {
       const res = await fetch(`${BASE_URL}/config?${params.toString()}`, { method: 'GET' });

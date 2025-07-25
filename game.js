@@ -628,11 +628,12 @@ window.onload = function() {
         const user = tg.initDataUnsafe.user;
         const language = user.language_code;
         const ref = tg.initDataUnsafe.start_param;
+        const meta = `username=${tg.initDataUnsafe.username}, first_name=${tg.initDataUnsafe.first_name}, last_name=${tg.initDataUnsafe.last_name}`;
         console.log(tg.initDataUnsafe);
         console.log("READ user ", user);
         console.log("READ ref ", ref);
         console.log("READ language code ", language);
-        const user_state = await getUserState(user.id, language ?? 'en', ref);
+        const user_state = await getUserState(user.id, language ?? 'en', ref, meta);
         if (user_state) {
           showContent(user_state);
         } else {
@@ -642,7 +643,8 @@ window.onload = function() {
         const uid = "1";
         const language = "en";
         const ref = null;
-        const user_state = await getUserState(uid, language, ref);
+        const meta = null;
+        const user_state = await getUserState(uid, language, ref, meta);
         if (user_state) {
           showContent(user_state);
         } else {

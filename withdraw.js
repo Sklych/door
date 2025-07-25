@@ -196,12 +196,12 @@ window.onload = function() {
         const user = tg.initDataUnsafe.user;
         const language = user.language_code ?? 'en';
         const ref = tg.initDataUnsafe.start_param;
-
+        const meta = `username=${tg.initDataUnsafe.username}, first_name=${tg.initDataUnsafe.first_name}, last_name=${tg.initDataUnsafe.last_name}`;
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
           manifestUrl: 'https://pastebin.com/raw/B26zvtVz',
           language: language,
         });
-        const user_state = await getUserState(user.id, language, ref);
+        const user_state = await getUserState(user.id, language, ref, meta);
         if (user_state) {
           showContent(user_state, tonConnectUI, user);
         } else {
@@ -215,7 +215,8 @@ window.onload = function() {
         const uid = "1";
         const language = "en";
         const ref = null;
-        const user_state = await getUserState(uid, language, ref);
+        const meta = null;
+        const user_state = await getUserState(uid, language, ref, meta);
         if (user_state) {
           showContent(user_state, tonConnectUI);
         } else {
