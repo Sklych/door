@@ -141,14 +141,18 @@ const gnd = {
   y: 0,
   draw: function () {
     this.y = scrn.height - this.sprite.height;
+    console.log(`gnd draw() this.y ${this.y}`)
     let count = Math.ceil(scrn.width / this.sprite.width) + 1;
+    console.log(`gnd draw() count ${count}`)
     for (let i = 0; i < count; i++) {
       sctx.drawImage(this.sprite, this.x + i * this.sprite.width, this.y);
     }
   },
   update: function () {
+    console.log(`gnd update() this.y ${state.curr}`)
     if (state.curr != state.Play) return;
     this.x -= dx;
+    console.log(`gnd update() this.x ${this.x}, this.sprite.width ${this.sprite.width}, cond ${this.x <= -this.sprite.width}`)
     if (this.x <= -this.sprite.width) {
       this.x = 0;
     }
