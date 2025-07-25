@@ -1,4 +1,4 @@
-import { isDebug, init, getUserState, postTransaction, UserState} from './network.js';
+import { isDebug, getUserState, postTransaction, UserState} from './network.js';
 
 function animateBackground(id) {
   const bgCanvas = document.getElementById(id);

@@ -1,4 +1,4 @@
-import { isDebug, init, getUserState, postTaskComplete, UserState} from './network.js';
+import { isDebug, getUserState, postTaskComplete, UserState} from './network.js';
 
 function animateBackground(id) {
   const bgCanvas = document.getElementById(id);

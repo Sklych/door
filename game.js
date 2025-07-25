@@ -1,4 +1,4 @@
-import { isDebug, init, getUserState, updateUserState, UserState} from './network.js';
+import { isDebug, getUserState, updateUserState, UserState} from './network.js';
 
 function animateBackground(id) {
   const bgCanvas = document.getElementById(id);
@@ -650,7 +650,6 @@ window.onload = function() {
 //   showContent(user_state);
 //   return
 
-setTimeout(() => {
   (async () => {
     try {
       if (!isDebug) {
@@ -687,18 +686,15 @@ setTimeout(() => {
       showError(err);
     }
   })();
-}, 3000)
-  
-  
-
   document.querySelectorAll('.nav-item').forEach(item => {
-      item.addEventListener('click', () => {
-      const url = item.getAttribute('data-url');
-      if (url && url != "index.html") {
-          window.location.href = url; // navigate to page
-      }
-      });
-  });
-};
+    item.addEventListener('click', () => {
+    const url = item.getAttribute('data-url');
+    if (url && url != "index.html") {
+        window.location.href = url; // navigate to page
+    }
+    });
+});
+}
+
 
 
