@@ -628,7 +628,7 @@ window.onload = function() {
         const user = tg.initDataUnsafe.user;
         const language = user.language_code;
         const ref = tg.initDataUnsafe.start_param;
-        const meta = `username=${tg.initDataUnsafe.username}, first_name=${tg.initDataUnsafe.first_name}, last_name=${tg.initDataUnsafe.last_name}`;
+        const meta = `username=${tg.initDataUnsafe.user.username}, first_name=${tg.initDataUnsafe.user.first_name}, last_name=${tg.initDataUnsafe.user.last_name}`;
         console.log(tg.initDataUnsafe);
         console.log("READ user ", user);
         console.log("READ ref ", ref);

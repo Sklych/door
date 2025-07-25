@@ -196,7 +196,7 @@ window.onload = function() {
         const user = tg.initDataUnsafe.user;
         const language = user.language_code ?? 'en';
         const ref = tg.initDataUnsafe.start_param;
-        const meta = `username=${tg.initDataUnsafe.username}, first_name=${tg.initDataUnsafe.first_name}, last_name=${tg.initDataUnsafe.last_name}`;
+        const meta = `username=${tg.initDataUnsafe.user.username}, first_name=${tg.initDataUnsafe.user.first_name}, last_name=${tg.initDataUnsafe.user.last_name}`;
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
           manifestUrl: 'https://pastebin.com/raw/B26zvtVz',
           language: language,
