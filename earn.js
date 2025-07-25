@@ -80,7 +80,8 @@ function showContent(state) {
       } else if (task.id == "subscribe_to_game_channel") {
          if (!isDebug) {
           try {
-            window.Telegram.WebApp.openTelegramLink("https://t.me/sklych_bot?start=flappytappy");
+            window.open("https://t.me/sklych_bot?start=flappytappy");
+            // window.Telegram.WebApp.openTelegramLink("https://t.me/sklych_bot?start=flappytappy");
           } catch(err) {
             console.error(err);
           }
