@@ -558,7 +558,7 @@ function draw() {
   UI.draw();
 }
 
-setInterval(gameLoop, 13);
+setInterval(gameLoop, 17);
 }
 
 function showLoading() {
