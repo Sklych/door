@@ -60,8 +60,6 @@ function showContent(state) {
   });
 
   // todo главная вкладка иногда зависает намертво
-  // todo добавить таску на подписку бота от которого идет апп(потому что при запуске аппа сам бот не стартует и дать за это 0.1 X)
-  // todo сделать локализацию для шаринг ссылки
 
   // stage2
   // todo добавить таску на пиар через тикток/ютуб шортс
@@ -77,8 +75,8 @@ function showContent(state) {
     taskBtn.addEventListener('click', () => {
       if (task.id == "invite_friend") {
          window.open(`http://t.me/share/url?url=${state.referral.link}&text=${state.referral.inviteText}`);
-      } else if (task.id == "subscribe_to_game_channel") {
-          window.open("https://t.me/sklych_bot?start=flappytappy");
+      } else if (task.id == "start_main_bot") {
+          window.open(`https://t.me/${state.bot.id}?start=flappytappy`)
          (async () => {
           try {
             if (!isDebug) {
