@@ -76,7 +76,7 @@ function showContent(state) {
       if (task.id == "invite_friend") {
          window.open(`http://t.me/share/url?url=${state.referral.link}&text=${state.referral.inviteText}`);
       } else if (task.id == "start_main_bot") {
-          window.open(`https://t.me/${state.bot.id}?start=flappytappy`)
+         window.open(`https://t.me/${state.bot.id}?start=flappytappy`);
          (async () => {
           try {
             if (!isDebug) {
