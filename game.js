@@ -557,8 +557,8 @@ function draw() {
   console.log("draw after pipe")
   reward.draw();   
   console.log("draw after reward")
-  // gnd.draw();
-  // console.log("draw after gnd")
+  gnd.draw();
+  console.log("draw after gnd")
   UI.draw();
   console.log("draw after ui")
 }
