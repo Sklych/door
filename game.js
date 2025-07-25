@@ -651,7 +651,7 @@ setTimeout(() => {
         console.log(tg.initDataUnsafe);
         console.log("READ REF ", ref);
         console.log("READ Language code ", user.language_code);
-        if (true) {
+        if (!localStorage.getItem("init")) {
           if (await init(user.id, user.language_code ?? 'en', ref)) {
             localStorage.setItem("init", true)
           }
