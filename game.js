@@ -41,11 +41,9 @@ function animateBackground(id) {
 }
 
 function showContent(user_state) {
-  console.log("showContent")
   document.getElementById('progress').style.display = 'none';
   document.getElementById('error-content').style.display = 'none';
   document.getElementById('main-content').style.display = 'block';
-  console.log("showContent after changing visibiility")
   
   animateBackground("content-background-stars");
   
@@ -141,22 +139,18 @@ const gnd = {
   y: 0,
   draw: function () {
     this.y = scrn.height - this.sprite.height;
-    console.log(`gnd draw() this.y ${this.y}, scrn.width ${scrn.width}, this.sprite.width ${this.sprite.width}`)
     let count = Math.ceil(scrn.width / this.sprite.width) + 1;
     if (count != Infinity) {
-      console.log(`gnd draw() count ${count}`)
       for (let i = 0; i < count; i++) {
         sctx.drawImage(this.sprite, this.x + i * this.sprite.width, this.y);
       }
     } else {
-      console.log("Count is Infinity");
+      // skip count is Infinite
     }
   },
   update: function () {
-    console.log(`gnd update() this.y ${state.curr}`)
     if (state.curr != state.Play) return;
     this.x -= dx;
-    console.log(`gnd update() this.x ${this.x}, this.sprite.width ${this.sprite.width}, cond ${this.x <= -this.sprite.width}`)
     if (this.x <= -this.sprite.width) {
       this.x = 0;
     }
@@ -512,11 +506,8 @@ bird.animations[3].sprite.src = "img/bird/b0.png";
 // SFX.die.src = "sfx/die.wav";
 
 function gameLoop() {
-  console.log("gameloop")
   update();
-  console.log("after update")
   draw();
-  console.log("after draw ")
   frames++;
 }
 
@@ -549,22 +540,14 @@ const gradient = sctx.createLinearGradient(0, 0, 0, canvas.height); // vertical
 gradient.addColorStop(0, "#6a0dad");   // top color (dark purple)
 gradient.addColorStop(1, "#9b30ff");   // bottom color (light purple)
 function draw() {
-  console.log("draw after bird")
   sctx.fillStyle = gradient;
-  console.log("draw after gradient")
   sctx.fillRect(0, 0, scrn.width, scrn.height);
-  console.log("draw after fillRect")
   // bg.draw();
   pipe.draw();
-  console.log("draw after pipe")
   reward.draw();   
-  console.log("draw after reward")
-  console.log("draw start")
   bird.draw();
   gnd.draw();
-  console.log("draw after gnd")
   UI.draw();
-  console.log("draw after ui")
 }
 
 setInterval(gameLoop, 17);
@@ -591,25 +574,6 @@ if (!isDebug) {
 
 window.onerror = function(msg, url, line, col, error) {
   window.location.reload();
-};
-
-console.log("before set window.onLoad")
-
-const worker = new Worker("anr.js");
-let lastPing = Date.now();
-worker.onmessage = (e) => {
-  if (e.data === "check") {
-    const now = Date.now();
-    const delay = now - lastPing;
-    console.log("Main thread delay:", delay, "ms");
-
-    // Detect freeze if delay > threshold (e.g. 300ms)
-    if (delay > 300) {
-      console.warn("⚠️ Main thread was blocked!");
-    }
-
-    lastPing = now;
-  }
 };
 
 window.onload = function() {
