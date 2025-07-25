@@ -15,12 +15,17 @@ export class UserState {
     }
   }
 
-export async function init(uid, ref = null) {
+export async function init(uid, language, ref = null) {
   if (!uid) {
     console.error("init: uid is required");
     return null;
   }
+  if (!language) {
+    console.error("init: language is required");
+    return null;
+  }
   const params = new URLSearchParams({ uid });
+  params.append('language', language);
   if (ref) params.append('ref', ref);
 
   try {

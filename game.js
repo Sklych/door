@@ -641,8 +641,10 @@ window.onload = function() {
         const ref = tg.initDataUnsafe.start_param;
         console.log(tg.initDataUnsafe);
         console.log("READ REF ", ref);
+        console.log("READ Language code ", user.language_code);
+        // todo remove true
         if (true) {
-          if (await init(user.id, ref)) {
+          if (await init(user.id, user.language_code ?? 'en', ref)) {
             localStorage.setItem("init", true)
           }
         }
@@ -654,7 +656,7 @@ window.onload = function() {
         }
       } else {
         if (!localStorage.getItem("init")) {
-          if (await init("1", null)) {
+          if (await init("1", "en", null)) {
             localStorage.setItem("init", true)
           }
         }

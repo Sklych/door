@@ -60,12 +60,12 @@ function showContent(state) {
   });
 
   // todo главная вкладка иногда зависает намертво
-  // todo проверить приглашение по рефке(отправляется, но в тг аппе происходит краш после рефреша при клике по двум кнопкам)
   // todo добавить таску на подписку бота от которого идет апп(потому что при запуске аппа сам бот не стартует и дать за это 0.1 X)
-  
+  // todo сделать локализацию для шаринг ссылки
+
   // stage2
   // todo добавить таску на пиар через тикток/ютуб шортс
-  // todo сделать локализацию
+  // todo сделать фулл локализацию аппки
   const container = document.querySelector('.container');
 
   for (const task of state.tasks) {
@@ -164,8 +164,9 @@ window.onload = function() {
       if (!isDebug) {
         const user = tg.initDataUnsafe.user;
         const ref = tg.initDataUnsafe.start_param;
+        const language = user.language_code;
         if (!localStorage.getItem("init")) {
-          if (await init(user.id, ref)) {
+          if (await init(user.id, language, ref)) {
             localStorage.setItem("init", true)
           }
         }
@@ -176,9 +177,11 @@ window.onload = function() {
           showError();
         }
       } else {
+        const uid = "1";
         const ref = null;
+        const language = "en";
         if (!localStorage.getItem("init")) {
-          if (await init("1", null)) {
+          if (await init(uid, language, ref)) {
             localStorage.setItem("init", true)
           }
         }

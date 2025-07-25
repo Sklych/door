@@ -187,14 +187,14 @@ window.onload = function() {
       if (!isDebug) {
         const user = tg.initDataUnsafe.user;
         const ref = tg.initDataUnsafe.start_param;
-        const user_lang = user.language_code ?? 'en';
+        const language = user.language_code ?? 'en';
 
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
           manifestUrl: 'https://pastebin.com/raw/B26zvtVz',
-          language: user_lang,
+          language: language,
         });
         if (!localStorage.getItem("init")) {
-          if (await init(user.id, ref)) {
+          if (await init(user.id, language, ref)) {
             localStorage.setItem("init", true)
           }
         }
@@ -210,7 +210,7 @@ window.onload = function() {
           language: 'en',
         });
         if (!localStorage.getItem("init")) {
-          if (await init("1", null)) {
+          if (await init("1", "en", null)) {
             localStorage.setItem("init", true)
           }
         }
