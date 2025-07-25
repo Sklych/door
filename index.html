@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>FlappyBird</title>
-    <link rel="stylesheet" href="style.css" > 
-    <script src="https://telegram.org/js/telegram-web-app.js?58"></script>
-    <script type="module" src="game.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>FlappyBird</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://telegram.org/js/telegram-web-app.js?58"></script>
+  <script type="module" src="game.js"></script>
 </head>
+
 <body>
   <div class="progress" id="progress">
     <div class="spinner"></div>
@@ -22,7 +24,7 @@
     </div>
   </div>
 
-   <div class="content" id="main-content" style="display: none;">
+  <div class="content" id="main-content" style="display: none;">
     <canvas id="content-background-stars"></canvas>
     <div class="status-bar">
       <div class="status-item" id="coefficient-menu-item">
@@ -37,19 +39,21 @@
     <canvas id="canvas" width="400" height="500"></canvas>
   </div>
 
+  </div>
   <div class="bottom-nav">
     <div class="nav-item" data-url="index.html" id="play-nav-item">
-      <img src="img/nav/play_selected.svg" alt="Play" class="nav-icon" />
-      <span>Играть</span>
+      <img src="img/nav/play.svg" alt="Play" class="nav-icon" />
+      <span id="play_nav_item">Play</span>
     </div>
     <div class="nav-item" data-url="earn.html" id="earn-nav-item">
-      <img src="img/nav/earn.svg" alt="Earn" class="nav-icon" />
-      <span>Бонусы</span>
+      <img src="img/nav/earn_selected.svg" alt="Earn" class="nav-icon" />
+      <span id="tasks_nav_item">Tasks</span>
     </div>
     <div class="nav-item" data-url="withdraw.html" id="withdraw-nav-item">
       <img src="img/nav/withdraw.svg" alt="Withdraw" class="nav-icon" />
-      <span>Вывод</span>
+      <span id="cash_out_nav_item">Cash out</span>
     </div>
   </div>
 </body>
+
 </html>

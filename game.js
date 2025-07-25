@@ -41,6 +41,14 @@ function animateBackground(id) {
 }
 
 function showContent(user_state) {
+  const playSpan = document.getElementById("play_nav_item");
+  const tasksSpan = document.getElementById("tasks_nav_item");
+  const cashoutSpan = document.getElementById("cash_out_nav_item");
+
+  playSpan.textContent = user_state.bottombar.playItem.title;
+  tasksSpan.textContent = user_state.bottombar.tasksItem.title;
+  cashoutSpan.textContent = user_state.bottombar.withdrawItem.title;
+
   document.getElementById('progress').style.display = 'none';
   document.getElementById('error-content').style.display = 'none';
   document.getElementById('main-content').style.display = 'block';

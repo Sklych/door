@@ -13,6 +13,9 @@ export class UserState {
       this.referral = data.referral;
       this.tasks = data.tasks;
       this.bot = data.bot;
+      this.bottombar = data.bottombar;
+      this.tasksPage = data.tasksPage;
+      this.cashOutPage = data.cashOutPage;
     }
   }
 
