@@ -91,14 +91,14 @@ usdtBtn.addEventListener('click', () => {
                 state.balance.value -= actualAmountToWithDraw;
                 animateText(0.0, state.balance.value, "usdt-text", "", state.balance.precision)
                 usdtButton.textContent = `Вывести ${state.balance.value.toFixed(state.balance.precision)} USDT`
-                requestWithDraw(actualAmountToWithDraw, state.balance.precision);
+                requestWithDraw(state.cashOutPage.successWithDrawPostfix, actualAmountToWithDraw, state.balance.precision);
               } catch (err) {
                 console.error(err);
                 showError();
               }
             })();
           } else {
-            requestWithDrawInsufficient(state.balance.minWithDrawAmount)
+            requestWithDrawInsufficient(state)
           }
         } else {
           tonConnectUI.openModal();
@@ -115,19 +115,19 @@ const html = `
 showToast(html);
 }
 
-function requestWithDrawInsufficient(amount) {
+function requestWithDrawInsufficient(state) {
 const html = `
   <div class="token" style="align: center;">
-      <span>Минимальная сумма вывода ${amount} USDT</span>
+      <span>${state.cashOutPage.insufficientNotificationText} ${state.balance.minWithDrawAmount} USDT</span>
   </div>`;
 showToast(html);
 }
 
-function requestWithDraw(amount, precision) {
+function requestWithDraw(successWithDrawPostfix, amount, precision) {
 const html = `
   <div class="token" style="align: center;">
       <span>✅</span>
-      <span>${amount.toFixed(precision)} USDT будут отправлены через 10 минут</span>
+      <span>${amount.toFixed(precision)} USDT ${successWithDrawPostfix}</span>
   </div>`;
 showToast(html);
 }
