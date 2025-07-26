@@ -2,6 +2,9 @@ export const isDebug = false;
 let BASE_URL = 'https://flsdfl.pythonanywhere.com';
 if (isDebug) {
   BASE_URL = 'http://127.0.0.1:5000';
+} else {
+  console.log = function () {};
+  console.error = function() {};
 }
 
 export class UserState {
