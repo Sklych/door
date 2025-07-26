@@ -69,6 +69,7 @@ function showContent(state) {
 
   // stage2
   // todo добавить таску на пиар через тикток/ютуб шортс
+  // todo валидировать пользователя через initData(это типо токен) https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app
   const container = document.querySelector('.container');
 
   const infoText = document.createElement('div');
