@@ -37,26 +37,3 @@
   .usdt-button:active {
     background-color: #1a7358;
   }
-
-  #toast-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 10001;
-}
-
-.toast {
-    background-color: #333;
-    color: #fff;
-    padding: 12px 20px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.toast.show {
-    opacity: 1;
-    transform: translateY(0);
-}

@@ -8,6 +8,7 @@
   <title>FlappyBird</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://telegram.org/js/telegram-web-app.js?58"></script>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <script type="module" src="earn.js"></script>
 </head>
 
@@ -19,10 +20,12 @@
   <div class="error-content" id="error-content" style="display: none;">
     <canvas id="error-background-stars"></canvas>
     <div class="error-box">
-      <p class="error-message">Произошла ошибка. Попробуйте снова.</p>
-      <button class="reload-button" onclick="location.reload()">Перезагрузить</button>
+      <p class="error-message" id="error-message">Произошла ошибка. Попробуйте снова.</p>
+      <button class="reload-button" id="reload-button" onclick="location.reload()">Перезагрузить</button>
     </div>
   </div>
+
+  <div id="toast-container"></div>
 
   <div class="content" id="main-content" style="display: none;">
     <canvas id="content-background-stars"></canvas>
@@ -38,6 +41,7 @@
     </div>
     <div class="earn-container"></div>
   </div>
+
   <div class="bottom-nav">
     <div class="nav-item" data-url="index.html" id="play-nav-item">
       <img src="img/nav/play.svg" alt="Play" class="nav-icon" />

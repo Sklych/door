@@ -55,6 +55,10 @@ html {
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   }
 
+  .status-item.gold {
+    color: #c5a803;
+  }
+
   .plus-icon {
     width: 24px;
     height: 24px;
