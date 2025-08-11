@@ -284,3 +284,7 @@ html {
       transform: rotate(360deg);
     }
   }
+
+  .casino-icon {
+    margin-left: 8px;
+  }

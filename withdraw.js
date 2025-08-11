@@ -1,12 +1,281 @@
-import{isDebug as t,getUserState as e,postTransaction as n,UserState as a}from"./network.js";function animateBackground(t){let e=document.getElementById(t);console.log("bgCanvas ",e);let n=e.getContext("2d");function a(){e.width=window.innerWidth,e.height=window.innerHeight}a(),window.addEventListener("resize",a);let i=Array.from({length:120}).map(()=>({x:Math.random()*e.width,y:Math.random()*e.height,radius:2*Math.random()+1,speed:1.5*Math.random()+.5}));!function t(){n.clearRect(0,0,e.width,e.height),n.fillStyle="white",i.forEach(t=>{n.beginPath(),n.arc(t.x,t.y,t.radius,0,2*Math.PI),n.fill(),t.y+=t.speed,t.y>e.height&&(t.y=0,t.x=Math.random()*e.width)}),requestAnimationFrame(t)}()}function showContent(e,a,i,o){let l=document.getElementById("play_nav_item"),s=document.getElementById("tasks_nav_item"),r=document.getElementById("leaders_nav_item"),c=document.getElementById("cash_out_nav_item");l.textContent=e.bottombar.playItem.title,s.textContent=e.bottombar.tasksItem.title,r.textContent=e.bottombar.leadersItem.title,c.textContent=e.bottombar.withdrawItem.title,document.getElementById("progress").style.display="none",document.getElementById("error-content").style.display="none",document.getElementById("main-content").style.display="block",animateText(0,e.balance.value,"usdt-text","",e.balance.precision),animateText(0,e.reward.coefficient,"coefficient-text"," X"),animateBackground("content-background-stars");let d=document.getElementById("coefficient-menu-item");e.reward.coefficient>=e.reward.maxCoefficient&&d.classList.add("gold");let m=document.getElementById("usdt-menu-item");d.addEventListener("click",()=>{document.getElementById("earn-nav-item").click()}),m.addEventListener("click",()=>{});let u=document.getElementById("usdt-button");u.textContent=`${e.cashOutPage.btnText} ${e.balance.value.toFixed(e.balance.precision)} USDT`,u.addEventListener("click",function(){if(a.wallet){let l=e.balance.value;e.balance.value>=e.balance.minWithDrawAmount?(async()=>{try{let s=null,r=null;t?(s="1",r="test"):(s=i.id,r=i.username??i.first_name);let c=a.wallet.account,d=(await n(s,r,l,c,o)).withDrawAmount;e.balance.value-=d,animateText(0,e.balance.value,"usdt-text","",e.balance.precision),u.textContent=`Вывести ${e.balance.value.toFixed(e.balance.precision)} USDT`,requestWithDraw(e.cashOutPage.successWithDrawPostfix,d,e.balance.precision)}catch(m){console.error(m),showError(e.language)}})():requestWithDrawInsufficient(e)}else a.openModal()});let g=document.getElementById("proof-button");"ru"==e.language?g.textContent="\uD83D\uDC24 Смотрите выплаты в Telegram. Жми! \uD83D\uDC24":g.textContent="\uD83D\uDC24 See our payouts on Telegram. Click! \uD83D\uDC24",g.addEventListener("click",function(){window.open("https://t.me/flappytappynews")});let h=document.getElementById("transaction-delay-text");h&&(h.textContent=e.cashOutPage.transactionDelayText)}function showWalletConnectedToast(){let t=`
+import { isDebug, getUserState, postTransaction, UserState} from './network.js';
+
+function animateBackground(id) {
+  const bgCanvas = document.getElementById(id);
+  console.log('bgCanvas ', bgCanvas)
+  const bgCtx = bgCanvas.getContext('2d');
+
+  function resizeBGCanvas() {
+    bgCanvas.width = window.innerWidth;
+    bgCanvas.height = window.innerHeight;
+  }
+  resizeBGCanvas();
+  window.addEventListener('resize', resizeBGCanvas);
+
+  const bgStars = Array.from({ length: 120 }).map(() => ({
+    x: Math.random() * bgCanvas.width,
+    y: Math.random() * bgCanvas.height,
+    radius: Math.random() * 2 + 1,
+    speed: Math.random() * 1.5 + 0.5,
+  }));
+
+  function animateStars() {
+    bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+    bgCtx.fillStyle = 'white';
+
+    bgStars.forEach(star => {
+      bgCtx.beginPath();
+      bgCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      bgCtx.fill();
+
+      star.y += star.speed;
+      if (star.y > bgCanvas.height) {
+        star.y = 0;
+        star.x = Math.random() * bgCanvas.width;
+      }
+    });
+
+    requestAnimationFrame(animateStars);
+  }
+
+  animateStars();
+}
+
+function showContent(state, tonConnectUI, user, initData) {
+  const playSpan = document.getElementById("play_nav_item");
+  const tasksSpan = document.getElementById("tasks_nav_item");
+  const leadersSpan = document.getElementById("leaders_nav_item");
+  const cashoutSpan = document.getElementById("cash_out_nav_item");
+  const casinoSpan = document.getElementById("casino_nav_item");
+
+  playSpan.textContent = state.bottombar.playItem.title;
+  tasksSpan.textContent = state.bottombar.tasksItem.title;
+  leadersSpan.textContent = state.bottombar.leadersItem.title;
+  cashoutSpan.textContent = state.bottombar.withdrawItem.title;
+  casinoSpan.textContent = state.bottombar.funaItem.title;
+
+  document.getElementById('progress').style.display = 'none';
+  document.getElementById('error-content').style.display = 'none';
+  document.getElementById('main-content').style.display = 'block';
+
+  animateText(0.0, state.balance.value, "usdt-text", "", state.balance.precision)
+  animateText(0.0, state.reward.coefficient, "coefficient-text", " X")
+  animateBackground("content-background-stars")
+  
+  const coefficientBtn = document.getElementById("coefficient-menu-item");
+  if (state.reward.coefficient >= state.reward.maxCoefficient) {
+    coefficientBtn.classList.add("gold");
+  }
+const usdtBtn = document.getElementById("usdt-menu-item");
+coefficientBtn.addEventListener('click', () => {
+  document.getElementById("earn-nav-item").click();
+});
+usdtBtn.addEventListener('click', () => {
+  // ignore
+});
+
+const casinoBtn = document.getElementById("casino-menu-item");
+    casinoBtn.addEventListener('click', () => {
+        document.getElementById("casino-nav-item").click();
+    });
+    document.getElementById("casino-text").textContent = state.funaPage.balance;
+  
+  const usdtButton = document.getElementById("usdt-button");
+  usdtButton.textContent = `${state.cashOutPage.btnText} ${state.balance.value.toFixed(state.balance.precision)} USDT`
+    usdtButton.addEventListener("click", function () {
+        if (tonConnectUI.wallet) {
+          const expectedAmountToWithDraw = state.balance.value;
+          if (state.balance.value >= state.balance.minWithDrawAmount) {
+            (async () => {
+              try {
+                let uid = null;
+                let tg_user_name = null;
+                if (!isDebug) {
+                  uid = user.id;
+                  tg_user_name = user.username ?? user.first_name;
+                } else {
+                  uid = "1";
+                  tg_user_name = "test";
+                }
+                
+                const amount = expectedAmountToWithDraw;
+                const wallet_info = tonConnectUI.wallet.account;
+                const actualAmountToWithDraw = (await postTransaction(uid, tg_user_name, amount, wallet_info, initData)).withDrawAmount;
+                state.balance.value -= actualAmountToWithDraw;
+                animateText(0.0, state.balance.value, "usdt-text", "", state.balance.precision)
+                usdtButton.textContent = `Вывести ${state.balance.value.toFixed(state.balance.precision)} USDT`
+                requestWithDraw(state.cashOutPage.successWithDrawPostfix, actualAmountToWithDraw, state.balance.precision);
+              } catch (err) {
+                console.error(err);
+                showError(state.language);
+              }
+            })();
+          } else {
+            requestWithDrawInsufficient(state)
+          }
+        } else {
+          tonConnectUI.openModal();
+        }
+    });
+
+    const proofButton = document.getElementById("proof-button");
+    if (state.language == "ru") {
+        proofButton.textContent = "🐤 Смотрите выплаты в Telegram. Жми! 🐤"
+    } else {
+        proofButton.textContent = "🐤 See our payouts on Telegram. Click! 🐤"
+    }
+   
+    proofButton.addEventListener("click", function () {
+        window.open(`https://t.me/flappytappynews`);
+    });
+
+    const delayText = document.getElementById("transaction-delay-text");
+    if (delayText) {
+        delayText.textContent = state.cashOutPage.transactionDelayText;
+    }
+}
+
+function showWalletConnectedToast() {
+const html = `
   <div class="token" style="align: center;">
       <span>✅</span>
       <span>Кошелек подключен</span>
-  </div>`;showToast(t)}function requestWithDrawInsufficient(t){let e=`
+  </div>`;
+showToast(html);
+}
+
+function requestWithDrawInsufficient(state) {
+const html = `
   <div class="token" style="align: center;">
-      <span>${t.cashOutPage.insufficientNotificationText} ${t.balance.minWithDrawAmount} USDT</span>
-  </div>`;showToast(e)}function requestWithDraw(t,e,n){let a=`
+      <span>${state.cashOutPage.insufficientNotificationText} ${state.balance.minWithDrawAmount} USDT</span>
+  </div>`;
+showToast(html);
+}
+
+function requestWithDraw(successWithDrawPostfix, amount, precision) {
+const html = `
   <div class="token" style="align: center;">
       <span>✅</span>
-      <span>${e.toFixed(n)} USDT ${t}</span>
-  </div>`;showToast(a)}function showToast(t,e=3e3){let n=document.createElement("div");n.className="toast",n.innerHTML=t,document.getElementById("toast-container").appendChild(n),setTimeout(()=>n.classList.add("show"),10),setTimeout(()=>{n.classList.remove("show"),setTimeout(()=>n.remove(),300)},e)}function animateText(t,e,n,a,i=1){let o=document.getElementById(n),l=performance.now();function s(n){let r=Math.min((n-l)/500,1);o.textContent=(t+(e-t)*r).toFixed(i)+a,r<1&&requestAnimationFrame(s)}requestAnimationFrame(s)}function showLoading(){document.getElementById("progress").style.display="block"}function showError(t){document.getElementById("progress").style.display="none",document.getElementById("main-content").style.display="none",document.getElementById("error-content").style.display="flex","ru"==t?(document.getElementById("error-message").textContent="Произошла ошибка",document.getElementById("reload-button").textContent="Перезагрузить"):(document.getElementById("error-message").textContent="An error occurred",document.getElementById("reload-button").textContent="Reload"),animateBackground("error-background-stars")}let tg=null;t||(tg=window.Telegram.WebApp).ready(),window.onload=function(){showLoading(),(async()=>{try{if(t){let n=new TON_CONNECT_UI.TonConnectUI({manifestUrl:"https://pastebin.com/raw/B26zvtVz",language:"en"}),a=await e("1","en",null,null,"withDrawPage",null);a?showContent(a,n,null,null):showError("en")}else{let i=tg.initDataUnsafe.user,o=i.language_code??"en",l=tg.initDataUnsafe.start_param,s=`username=${tg.initDataUnsafe.user.username}, first_name=${tg.initDataUnsafe.user.first_name}, last_name=${tg.initDataUnsafe.user.last_name}`,r=tg.initData,c=new TON_CONNECT_UI.TonConnectUI({manifestUrl:"https://sklych.github.io/door/tonconnect-manifest.json",language:o}),d=await e(i.id,o,l,s,"withDrawPage",r);d?showContent(d,c,i,r):showError(o)}}catch(m){t?console.error(`${m}`):console.error(`${m}, ${tg.initData}, ${tg.initDataUnsafe}, ${tg},`),showError("en")}})(),document.querySelectorAll(".nav-item").forEach(t=>{t.addEventListener("click",()=>{let e=t.getAttribute("data-url");e&&"withdraw.html"!=e&&(window.location.href=e)})})};
+      <span>${amount.toFixed(precision)} USDT ${successWithDrawPostfix}</span>
+  </div>`;
+showToast(html);
+}
+
+function showToast(html, duration = 3000) {
+const toast = document.createElement('div');
+toast.className = 'toast';
+toast.innerHTML = html;
+
+document.getElementById('toast-container').appendChild(toast);
+
+setTimeout(() => toast.classList.add('show'), 10);
+
+setTimeout(() => {
+  toast.classList.remove('show');
+  setTimeout(() => toast.remove(), 300);
+}, duration);
+}
+
+
+function animateText(from, to, textId, postfix, precision=1) {
+  const element = document.getElementById(textId);
+  const duration = 500;
+  const start = performance.now();
+
+  function update(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const current = from + (to - from) * progress;
+    element.textContent = current.toFixed(precision) + postfix;
+
+    if (progress < 1) requestAnimationFrame(update);
+  }
+
+  requestAnimationFrame(update);
+}
+
+function showLoading() {
+  document.getElementById('progress').style.display = 'block';
+}
+
+function showError(language) {
+    document.getElementById('progress').style.display = 'none';
+    document.getElementById('main-content').style.display = 'none';
+    document.getElementById('error-content').style.display = 'flex';
+  
+    if (language == "ru") {
+      document.getElementById('error-message').textContent = "Произошла ошибка";
+      document.getElementById('reload-button').textContent = "Перезагрузить";
+    } else {
+      document.getElementById('error-message').textContent = "An error occurred";
+      document.getElementById('reload-button').textContent = "Reload";
+    }
+  
+    animateBackground("error-background-stars");
+  }
+
+let tg = null;
+if (!isDebug) {
+  tg = window.Telegram.WebApp;
+  tg.ready();
+}
+
+window.onload = function() {
+  showLoading();
+
+  (async () => {
+    try {
+      if (!isDebug) {
+        const user = tg.initDataUnsafe.user;
+        const language = user.language_code ?? 'en';
+        const ref = tg.initDataUnsafe.start_param;
+        const meta = `username=${tg.initDataUnsafe.user.username}, first_name=${tg.initDataUnsafe.user.first_name}, last_name=${tg.initDataUnsafe.user.last_name}`;
+        const page = "withDrawPage";
+        const initData = tg.initData;
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+          manifestUrl: 'https://sklych.github.io/door/tonconnect-manifest.json',
+          language: language,
+        });
+        const user_state = await getUserState(user.id, language, ref, meta, page, initData);
+        if (user_state) {
+          showContent(user_state, tonConnectUI, user, initData);
+        } else {
+          showError(language);
+        }
+      } else {
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+          manifestUrl: 'https://pastebin.com/raw/B26zvtVz',
+          language: 'en',
+        });
+        const uid = "1";
+        const language = "en";
+        const ref = null;
+        const meta = null;
+        const page = "withDrawPage";
+        const initData = null;
+	const user = null;
+        const user_state = await getUserState(uid, language, ref, meta, page, initData);
+        if (user_state) {
+          showContent(user_state, tonConnectUI, user, initData);
+        } else {
+          showError(language);
+        }
+      }
+    } catch (err) {
+      if (!isDebug) {
+        console.error(`${err}, ${tg.initData}, ${tg.initDataUnsafe}, ${tg},`);
+      } else {
+        console.error(`${err}`)
+      }
+      showError("en");
+    }
+  })();
+
+  document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+      const url = item.getAttribute('data-url');
+      if (url && url != "withdraw.html") {
+          window.location.href = url; // navigate to page
+      }
+      });
+  });
+}
