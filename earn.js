@@ -136,17 +136,25 @@ function showContent(state, tonConnectUI, initData) {
     infoText.textContent = state.tasksPage.coefficientInfoText;
     container.appendChild(infoText);
 
+    state.tasks.unshift(
+        {id: 'myphrill', tg_uid: '-1', title: 'Stake TON and get daily profit', reward_coefficient: 0, status: 0}
+    )
+
     for (const task of state.tasks) {
         console.log(task)
         const taskBtn = document.createElement('div');
         taskBtn.className = 'subscribe-bonus';
         if (task.id.includes("popup")) {
             taskBtn.classList.add("gold")
+        } else if (task.id == "myphrill") {
+            taskBtn.classList.add("myphrill")
         }
         taskBtn.id = task.id;
         taskBtn.textContent = task.title;
         taskBtn.addEventListener('click', () => {
-            if (task.id == "invite_friend") {
+            if (task.id == "myphrill") {
+                window.open(`http://t.me/myphrill_bot/myphrill?startapp=fbb`);
+            } else if (task.id == "invite_friend") {
                 window.open(`http://t.me/share/url?url=${state.referral.link}&text=${state.referral.inviteText}`);
             } else if (task.id == "start_main_bot") {
                 window.open(`https://t.me/${state.bot.id}?start=flappytappy`);
