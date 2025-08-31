@@ -150,7 +150,7 @@ function showContent(state, tonConnectUI, initData) {
         taskBtn.className = 'subscribe-bonus';
         if (task.id.includes("popup")) {
             taskBtn.classList.add("gold")
-        } else if (task.id == "myphrill") {
+        } else if (task.id.includes("myphrill")) {
             taskBtn.classList.add("myphrill")
         }
         taskBtn.id = task.id;
