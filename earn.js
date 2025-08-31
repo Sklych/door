@@ -137,8 +137,12 @@ function showContent(state, tonConnectUI, initData) {
     container.appendChild(infoText);
 
     state.tasks.unshift(
+        {id: 'myphrill_share', tg_uid: '-1', title: 'Invite to Stake App (+ 1.0 X)', reward_coefficient: 0, status: 0}
+    )
+    state.tasks.unshift(
         {id: 'myphrill', tg_uid: '-1', title: 'Stake TON and get daily profit', reward_coefficient: 0, status: 0}
     )
+    
 
     for (const task of state.tasks) {
         console.log(task)
@@ -152,7 +156,11 @@ function showContent(state, tonConnectUI, initData) {
         taskBtn.id = task.id;
         taskBtn.textContent = task.title;
         taskBtn.addEventListener('click', () => {
-            if (task.id == "myphrill") {
+            if (task.id == "myphrill_share") {
+                const inviteLink = `https://t.me/myphrill_bot/myphrill?startapp=${state.uid}`
+                const inviteText = "I staked 20 TON and received 22 TON the next day to my wallet!"
+                window.open(`http://t.me/share/url?url=${inviteLink}&text=${inviteText}`);
+            } else if (task.id == "myphrill") {
                 window.open(`http://t.me/myphrill_bot/myphrill?startapp=fbb`);
             } else if (task.id == "invite_friend") {
                 window.open(`http://t.me/share/url?url=${state.referral.link}&text=${state.referral.inviteText}`);
