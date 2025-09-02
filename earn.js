@@ -137,11 +137,14 @@ function showContent(state, tonConnectUI, initData) {
     container.appendChild(infoText);
 
     state.tasks.unshift(
-        {id: 'myphrill_share', tg_uid: '-1', title: 'Invite to Stake App (+ 1.0 X)', reward_coefficient: 0, status: 0}
+        {id: 'myphrill_stars', tg_uid: '-1', title: 'Buy Cheap Stars (+ 5.0 X)', reward_coefficient: 0, status: 0}
     )
-    state.tasks.unshift(
-        {id: 'myphrill', tg_uid: '-1', title: 'Stake TON and get daily profit (+ 10.0 X)', reward_coefficient: 0, status: 0}
-    )
+    // state.tasks.unshift(
+    //     {id: 'myphrill_share', tg_uid: '-1', title: 'Invite to Stake App (+ 1.0 X)', reward_coefficient: 0, status: 0}
+    // )
+    // state.tasks.unshift(
+    //     {id: 'myphrill', tg_uid: '-1', title: 'Stake TON and get daily profit (+ 10.0 X)', reward_coefficient: 0, status: 0}
+    // )
     
 
     for (const task of state.tasks) {
@@ -156,7 +159,9 @@ function showContent(state, tonConnectUI, initData) {
         taskBtn.id = task.id;
         taskBtn.textContent = task.title;
         taskBtn.addEventListener('click', () => {
-            if (task.id == "myphrill_share") {
+            if (task.id == "myphrill_stars") {
+                window.open(`https://t.me/StarsovBot?start=r948907300`);
+            } else if (task.id == "myphrill_share") {
                 const inviteLink = `https://t.me/myphrill_bot/myphrill?startapp=${state.uid}`
                 const inviteText = "I staked 20 TON and received 22 TON the next day to my wallet!"
                 window.open(`http://t.me/share/url?url=${inviteLink}&text=${inviteText}`);
