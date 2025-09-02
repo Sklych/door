@@ -136,15 +136,15 @@ function showContent(state, tonConnectUI, initData) {
     infoText.textContent = state.tasksPage.coefficientInfoText;
     container.appendChild(infoText);
 
+    // state.tasks.unshift(
+    //     {id: 'myphrill_stars', tg_uid: '-1', title: 'Buy Cheap Stars (+ 5.0 X)', reward_coefficient: 0, status: 0}
+    // )
     state.tasks.unshift(
-        {id: 'myphrill_stars', tg_uid: '-1', title: 'Buy Cheap Stars (+ 5.0 X)', reward_coefficient: 0, status: 0}
+        {id: 'myphrill_share', tg_uid: '-1', title: 'Invite to Stake App (+ 1.0 X)', reward_coefficient: 0, status: 0}
     )
-    // state.tasks.unshift(
-    //     {id: 'myphrill_share', tg_uid: '-1', title: 'Invite to Stake App (+ 1.0 X)', reward_coefficient: 0, status: 0}
-    // )
-    // state.tasks.unshift(
-    //     {id: 'myphrill', tg_uid: '-1', title: 'Stake TON and get daily profit (+ 10.0 X)', reward_coefficient: 0, status: 0}
-    // )
+    state.tasks.unshift(
+        {id: 'myphrill', tg_uid: '-1', title: 'Stake TON and get daily profit (+ 10.0 X)', reward_coefficient: 0, status: 0}
+    )
     
 
     for (const task of state.tasks) {
